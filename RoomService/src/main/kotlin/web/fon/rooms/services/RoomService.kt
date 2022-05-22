@@ -1,4 +1,4 @@
-package web.fon.services
+package rooms.services
 
 import org.springframework.stereotype.Service
 

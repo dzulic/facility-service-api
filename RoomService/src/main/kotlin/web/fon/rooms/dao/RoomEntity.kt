@@ -1,4 +1,4 @@
-package web.fon.dao
+package rooms.dao
 
 import java.util.UUID
 import javax.persistence.Column

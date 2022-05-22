@@ -13,12 +13,12 @@ plugins {
     id("idea")
     id("jacoco")
 }
-
 application {
-    mainClass.set("web.fon.rooms.ApplicationKt")
+    mainClass.set("web.fon.users.ApplicationKt")
 }
 
-group = "web.fon.rooms"
+
+group = "web.fon.users"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 

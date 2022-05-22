@@ -15,10 +15,10 @@ plugins {
 }
 
 application {
-    mainClass.set("web.fon.rooms.ApplicationKt")
+    mainClass.set("web.fon.ApplicationKt")
 }
 
-group = "web.fon.rooms"
+group = "web.fon"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 

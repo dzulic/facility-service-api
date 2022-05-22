@@ -7,3 +7,5 @@
 /gradlew.bat
 /.idea/
 /gradle/
+/RoomService/RoomService.iml
+/UserService/UserService.iml

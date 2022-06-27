@@ -1,0 +1,12 @@
+features:
+  sns:
+    accessKey: mAKIAVT6RKMRAND2T5OG2
+    secretKey:TOREPLACE
+    serviceEndpoint: sns.eu-central-1.amazonaws.com
+    fcmPlatformApplicationARN: arn:aws:sns:eu-central-1:386449171520:app/GCM/NotificationPlatform
+    region: eu-central-1
+  ses:
+    accessKey: AKIAVT6RKMRALRDYY5SP
+    secretKey: TOREPLACE
+    serviceEndpoint: https://email.eu-central-1.amazonaws.com
+    region: eu-central-1

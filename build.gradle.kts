@@ -16,6 +16,4 @@ plugins {
 subprojects {
     apply {
 
-    }
-
-}
+    }}

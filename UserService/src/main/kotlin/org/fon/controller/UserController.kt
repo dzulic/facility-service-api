@@ -1,4 +1,4 @@
-package users.controller
+package org.fon
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

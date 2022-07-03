@@ -15,10 +15,10 @@ plugins {
 }
 
 application {
-    mainClass.set("web.fon.rooms.ApplicationKt")
+    mainClass.set("org.fon.rooms.Application")
 }
 
-group = "web.fon.rooms"
+group = "org.fon.rooms"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
@@ -27,7 +27,7 @@ configure<JavaPluginExtension> {
 }
 
 sourceSets.main {
-    java.srcDirs("src/main/kotlin/web/fon")
+    java.srcDirs("src/main/kotlin/org/fon")
 }
 
 repositories {
@@ -51,7 +51,6 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.2")
     implementation("org.springframework.boot:spring-boot-starter-validation:2.7.0")
     implementation("org.springframework.retry:spring-retry:1.3.3")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.0-rc2")
     implementation("javax.xml.bind:jaxb-api:2.3.0")

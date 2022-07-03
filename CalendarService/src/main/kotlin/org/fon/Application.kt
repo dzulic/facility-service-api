@@ -1,4 +1,4 @@
-package rooms
+package org.fon
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 

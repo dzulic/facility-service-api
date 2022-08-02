@@ -75,9 +75,13 @@ dependencies {
     //OTHER
     ktlint("com.pinterest:ktlint:${ktlintVersion}")
     developmentOnly("org.springframework.boot:spring-boot-devtools:2.7.0")
+    testImplementation(kotlin("test"))
 
 }
 
+tasks.test {
+    useJUnitPlatform()
+}
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks

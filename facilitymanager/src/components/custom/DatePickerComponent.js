@@ -1,31 +1,60 @@
-import React from 'react';
+import React, {Component, useState} from 'react';
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment';
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {DesktopDatePicker} from '@mui/x-date-pickers/DesktopDatePicker';
 import {Box, FormControl, TextField} from "@mui/material";
+import {connect} from "react-redux";
+import {ActionTypes} from "../../redux/actions";
+import {getValueAppPropertyStore, SELECTED_DATE} from "../../utils/Utils";
+import moment from "moment";
 
-export function DatePickerComponent() {
-    const [value, setValue] = React.useState();
-    const handleChange = (newValue) => {
-        setValue(newValue);
-    };
-    let today = new Date(Date.now());
+class DatePickerComponent extends Component {
+    constructor(props) {
+        super(props);
+    }
 
-    return (
-        <Box sx={{padding: 5}}>
-            <FormControl fullWidth={true}>
-                <LocalizationProvider dateAdapter={AdapterMoment}>
-                    <DesktopDatePicker
-                        sx={{width: 'inherit'}}
-                        label="Please select date to book a room"
-                        inputFormat="MM/DD/yyyy"
-                        value={value}
-                        onChange={handleChange}
-                        renderInput={(params) => <TextField {...params} />}
-                    ></DesktopDatePicker>
-                </LocalizationProvider>
-            </FormControl>
-        </Box>
-    );
+    handleChange = (date) => {
+        if (date !== undefined) {
+            const {dispatch} = this.props
+            dispatch({
+                type: ActionTypes.ADD_EDIT_APP_PROPERTY,
+                property: {
+                    key: SELECTED_DATE,
+                    value: date.format('DD/MM/YYYY')
+                }
+            })
+        }
+    }
+
+    render() {
+        console.log("DATE IS", this.props.selectedDate)
+        return (
+            <Box sx={{padding: 5}}>
+                <FormControl fullWidth={true}>
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                        <DesktopDatePicker
+                            value={this.props.selectedDate !== undefined ? moment(this.props.selectedDate, 'DD/MM/YYYY') : null}
+                            disablePast
+                            sx={{width: 'inherit'}}
+                            label="Please select date to book a room"
+                            inputFormat="DD/MM/yyyy"
+                            format="dd / MM / yyyy"
+                            onChange={this.handleChange}
+                            renderInput={(params) => <TextField {...params} />}
+                        ></DesktopDatePicker>
+                    </LocalizationProvider>
+                </FormControl>
+            </Box>
+        );
+    }
 }
+
+function mapStateToProps(state) {
+    return {
+        selectedDate: getValueAppPropertyStore(state, SELECTED_DATE)
+    };
+}
+
+export default connect(mapStateToProps)(DatePickerComponent)
+
 

@@ -5,8 +5,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CircleIcon from '@mui/icons-material/Circle';
 
 function CurrentUserBookingsComponent() {
-    const [dense, setDense] = React.useState(false);
-    const [secondary, setSecondary] = React.useState(false);
+    const [dense] = React.useState(false);
+    const [secondary] = React.useState(false);
 
     function generate(element) {
         return [0, 1, 2].map((value) =>

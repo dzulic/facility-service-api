@@ -3,10 +3,12 @@ import Dayz from 'dayz';
 import "dayz/dist/dayz.css";
 import moment from 'moment';
 import Box from "@mui/material/Box";
+import {getValueAppPropertyStore, SELECTED_DATE} from "../../utils/Utils";
+import {connect} from "react-redux";
 
 let COUNT = 1;
 
-class DayzTestComponent extends React.Component {
+class DayzComponent extends React.Component {
     constructor(props) {
         super(props);
         this.addEvent = this.addEvent.bind(this);
@@ -14,23 +16,23 @@ class DayzTestComponent extends React.Component {
         this.editComponent = this.editComponent.bind(this);
         this.changeDisplay = this.changeDisplay.bind(this);
         this.onEventResize = this.onEventResize.bind(this);
-        const date = moment('2022-08-11');
+        const date = moment(props.selectedDate, 'DD/MM/yyyy');
         this.state = {
             date,
-            display: 'month',
+            display: 'day',
             events: new Dayz.EventsCollection([
 
                 {
                     content: '9am - 2pm (resizable)',
                     resizable: {step: 15},
-                    range: moment.range(moment('2022-08-11').hour(9),
-                        moment('2022-08-11').hour(14))
+                    range: moment.range(date.hour(9),
+                        date.hour(14))
                 },
 
                 {
                     content: '8am - 8pm (non-resizable)',
-                    range: moment.range(moment('2022-08-07').hour(8),
-                        moment('2022-08-07').hour(21).minutes(40))
+                    range: moment.range(date.hour(8),
+                        date.hour(21).minutes(40))
                 },
             ]),
         };
@@ -94,7 +96,7 @@ class DayzTestComponent extends React.Component {
                 <Dayz {...this.state}
                       display={'day'}
                       displayHours={[6, 22]}
-                      highlightDays={[this.state.date]}
+                      highlightDays={[this.props.selectedDate]}
                       onEventResize={this.onEventResize}
                       editComponent={this.editComponent}
                       onDayDoubleClick={this.addEvent}
@@ -105,4 +107,10 @@ class DayzTestComponent extends React.Component {
     }
 }
 
-export default DayzTestComponent
+function mapStateToProps(state) {
+    return {
+        selectedDate: getValueAppPropertyStore(state, SELECTED_DATE)
+    };
+}
+
+export default connect(mapStateToProps)(DayzComponent)

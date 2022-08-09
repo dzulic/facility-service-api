@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import MainBodyComponent from './components/base/MainBodyComponent'
+import BookRoomComponent from './components/BookRoomComponent'
 import HeaderComponent from "./components/base/HeaderComponent";
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -31,7 +31,7 @@ function App() {
                         display: 'flex', flexDirection: 'column', width: '100%', height: '100%',
                         boxShadow: '0px 7px 8px -4px rgb(0 0 0 / 20%), 0px 12px 17px 2px rgb(0 0 0 / 14%), 0px 5px 22px 4px rgb(0 0 0 / 12%)'
                     }}>
-                        <MainBodyComponent></MainBodyComponent>
+                        <BookRoomComponent></BookRoomComponent>
                     </Box>
                     <SidebarComponent></SidebarComponent>
                     <Box sx={{gridArea: 'footer', bgcolor: 'white'}}>
@@ -39,7 +39,6 @@ function App() {
                     </Box>
                 </Box>
             </Container>
-
         </div>
     )
         ;

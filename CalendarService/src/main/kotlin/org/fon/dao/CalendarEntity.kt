@@ -1,6 +1,7 @@
 package org.fon.dao
 
 import org.springframework.data.jpa.repository.JpaRepository
+import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -16,10 +17,11 @@ data class CalendarEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    val id: Long? = null,
+    val id: UUID = UUID.randomUUID(),
     @OneToMany
     @JoinColumn(name = "agendas")
-    val agendas: List<AgendaWeekEntity>
+    val agendas: List<AgendaEntryEntity>
 ) : Auditable()
 
-abstract class CalendarRepository() : JpaRepository<CalendarEntity, Long>
+abstract class CalendarRepository : JpaRepository<CalendarEntity, Long> {
+}

@@ -53,6 +53,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.0-rc2")
     implementation("javax.xml.bind:jaxb-api:2.3.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
 
 
     //configuration properties

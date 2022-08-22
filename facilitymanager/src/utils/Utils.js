@@ -11,4 +11,5 @@ export function getValueAppPropertyStore(state, key) {
 }
 
 export const SELECTED_DATE = 'SELECTED_DATE'
+export const SELECTED_TIME = 'SELECTED_TIME'
 export const ROOM_TYPE = 'ROOM_TYPE'

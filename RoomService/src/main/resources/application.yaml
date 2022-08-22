@@ -7,6 +7,16 @@ spring:
     username: postgres
     password: postgres
   flyway:
-    baseline-on-migrate: true
     enabled: true
     baseline-version: 0
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate.temp.use_jdbc_metadata_defaults: false
+      hibernate.jdbc.batch_size: 50
+      hibernate.cache.use_query_cache: false
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_structured_entries: false
+      hibernate.cache.use_minimal_puts: false

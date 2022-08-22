@@ -1,5 +1,8 @@
-package rooms.dao
+package org.fon.dao
 
+import org.fon.controller.RoomDTO
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -14,11 +17,11 @@ data class RoomEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    val id: Long? = null,
+    val id: UUID = UUID.randomUUID(),
     val roomId: String,
     val roomType: String,
     val sittingPlaces: Int,
     val computerPlaces: Int,
-    val numberOfSittingPlaces: Int,
     val universityId: UUID
 )
+interface RoomRepository : JpaRepository<RoomEntity, UUID>

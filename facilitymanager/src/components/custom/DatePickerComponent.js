@@ -29,7 +29,7 @@ class DatePickerComponent extends Component {
     render() {
         console.log("DATE IS", this.props.selectedDate)
         return (
-            <Box sx={{padding: 5}}>
+            <Box sx={{padding: 5, my: 4}}>
                 <FormControl fullWidth={true}>
                     <LocalizationProvider dateAdapter={AdapterMoment}>
                         <DesktopDatePicker

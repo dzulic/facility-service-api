@@ -92,16 +92,18 @@ class DayzComponent extends React.Component {
 
     render() {
         return (
-            <Box sx={{height: '600px', margin: 'auto', width: '50%'}} className="dayz-test-wrapper">
-                <Dayz {...this.state}
-                      display={'day'}
-                      displayHours={[6, 22]}
-                      highlightDays={[this.props.selectedDate]}
-                      onEventResize={this.onEventResize}
-                      editComponent={this.editComponent}
-                      onDayDoubleClick={this.addEvent}
-                      onEventClick={this.onEventClick}
-                ></Dayz>
+            <Box sx={{my: 4, flexGrow: 2}}>
+                <Box sx={{height: '600px', margin: 'auto', width: '50%'}} className="dayz-test-wrapper">
+                    <Dayz {...this.state}
+                          display={'day'}
+                          displayHours={[6, 22]}
+                          highlightDays={[this.props.selectedDate]}
+                          onEventResize={this.onEventResize}
+                          editComponent={this.editComponent}
+                          onDayDoubleClick={this.addEvent}
+                          onEventClick={this.onEventClick}
+                    ></Dayz>
+                </Box>
             </Box>
         );
     }

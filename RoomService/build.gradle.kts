@@ -1,6 +1,7 @@
 buildscript {
     dependencies {
         classpath("com.google.cloud.tools:jib-spring-boot-extension-gradle:0.1.0")
+
     }
 }
 
@@ -12,6 +13,8 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("idea")
     id("jacoco")
+    id("org.jetbrains.kotlin.plugin.jpa") version ("1.6.10")
+
 }
 
 application {
@@ -35,6 +38,7 @@ repositories {
     maven { url = uri("https://repo.spring.io/milestone") }
 }
 
+
 configurations {
     developmentOnly
     runtimeClasspath.get().extendsFrom(developmentOnly.get())
@@ -54,6 +58,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.0-rc2")
     implementation("javax.xml.bind:jaxb-api:2.3.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
 
 
     //configuration properties
@@ -76,9 +81,9 @@ dependencies {
     //OTHER
     ktlint("com.pinterest:ktlint:${ktlintVersion}")
     developmentOnly("org.springframework.boot:spring-boot-devtools:2.7.0")
+    testImplementation(kotlin("test"))
 
 }
-
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks

@@ -17,30 +17,30 @@ import javax.persistence.Table
         Index(name = "idx_agendaentryentity", columnList = "reservedByUser")
     ]
 )
-class AgendaEntryEntity(
+data class AgendaEntryEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     val id: UUID = UUID.randomUUID(),
     val roomId: UUID,
-    val time: OffsetDateTime,
+    val timeStart: OffsetDateTime,
+    val timeEnd: OffsetDateTime,
     val usePurposeDescription: String,
     val reservedByUser: UUID,
 ) : Auditable()
 
 
 interface AgendaEntryRepository : JpaRepository<AgendaEntryEntity, UUID> {
-    fun findAllByRoomIdInAndTimeBetween(
+    fun findAllByRoomIdInAndTimeStartBetween(
         roomIds: List<UUID>,
         startTime: OffsetDateTime,
         endTime: OffsetDateTime
     ): List<AgendaEntryEntity>
 
-    fun findAllByRoomIdAndTime_DayOfYear(roomId: UUID,): AgendaEntryEntity
+    fun findAllByRoomIdIn(
+        roomIds: List<UUID>
+    ): List<AgendaEntryEntity>
 
-
-    //TODO add between for dates - native query
-    fun findAllByRoomIdIsInAndTime(roomIds: List<UUID>, day: OffsetDateTime): List<AgendaEntryEntity>
     fun findAllByReservedByUser(userId: UUID): List<AgendaEntryEntity>
 
 }

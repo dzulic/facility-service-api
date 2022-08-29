@@ -1,8 +1,8 @@
 package org.fon.controller
 
 import org.fon.dao.AgendaEntryEntity
+import org.fon.service.AgendaEntryDTO
 import org.fon.service.CalendarService
-import org.fon.service.RoomDTO
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.UUID
 
@@ -27,14 +26,19 @@ class CalendarController(private val calendarService: CalendarService) {
     /**
      *
      */
-    @GetMapping("/rooms")
+    @GetMapping("/availability")
     fun getAvailableRoomsForTimeAndType(
-        @RequestParam roomIds: List<UUID>,
-        @RequestParam selectedTimeStart: OffsetDateTime,
-        @RequestParam selectedTimeEnd: OffsetDateTime
-    ): ResponseEntity<List<AgendaEntryEntity>>? =
-        ResponseEntity<List<AgendaEntryEntity>>(
-            calendarService.getReservedRoomsForTypeAndTime(roomIds, selectedTimeStart, selectedTimeEnd),
+        @RequestParam roomType: String,
+        @RequestParam(
+            value = "selectedTimeStart",
+            required = false
+        ) @org.springframework.format.annotation.DateTimeFormat(
+            iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME
+        )
+        selectedTimeStart: OffsetDateTime
+    ): ResponseEntity<List<AgendaEntryDTO>>? =
+        ResponseEntity<List<AgendaEntryDTO>>(
+            calendarService.getReservedRoomsForTypeAndTime(roomType, selectedTimeStart),
             HttpStatus.OK
         )
 

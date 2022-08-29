@@ -1,5 +1,5 @@
 import React from "react";
-import {ActionTypes} from "./actions";
+import {ActionTypes} from "../actions";
 
 export const AppReducer = (state = [], action) => {
     const property = action.property;
@@ -22,7 +22,6 @@ export const AppReducer = (state = [], action) => {
                     return stateProperty.key !== property.key
                 }
             );
-
         default:
             return state;
     }

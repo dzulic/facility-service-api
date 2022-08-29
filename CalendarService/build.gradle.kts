@@ -12,6 +12,7 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("idea")
     id("jacoco")
+    id("org.jetbrains.kotlin.plugin.jpa") version ("1.6.10")
 }
 
 application {
@@ -54,6 +55,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.0-rc2")
     implementation("javax.xml.bind:jaxb-api:2.3.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
+    implementation("org.springframework.boot:spring-boot-starter-webflux:2.7.3")
 
 
     //configuration properties

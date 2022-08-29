@@ -24,4 +24,7 @@ data class RoomEntity(
     val computerPlaces: Int,
     val universityId: UUID
 )
-interface RoomRepository : JpaRepository<RoomEntity, UUID>
+
+interface RoomRepository : JpaRepository<RoomEntity, UUID> {
+    fun findAllByRoomType(roomType: String): List<RoomEntity>
+}

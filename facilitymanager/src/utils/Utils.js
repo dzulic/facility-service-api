@@ -13,3 +13,6 @@ export function getValueAppPropertyStore(state, key) {
 export const SELECTED_DATE = 'SELECTED_DATE'
 export const SELECTED_TIME = 'SELECTED_TIME'
 export const ROOM_TYPE = 'ROOM_TYPE'
+export const AVAILABLE_ROOMS = 'AVAILABLE_ROOMS'
+export const AGENDA_ENTRIES = 'AGENDA_ENTRIES'
+export const SHOW_MODAL_PROPERTY = 'SHOW_MODAL_PROPERTY'

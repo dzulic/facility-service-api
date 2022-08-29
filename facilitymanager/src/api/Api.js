@@ -1,4 +1,3 @@
-export const REST_ROOT_ENDPOINT = "http://localhost:8081/";
 export const DEFAULT_REST_PARAMS_POST = {
     method: 'POST',
     headers: {
@@ -15,20 +14,9 @@ export const DEFAULT_REST_PARAMS_GET = {
     }
 }
 
-export const handleApiFetchGET =
-    (restEndpoint) => fetch(restEndpoint, DEFAULT_REST_PARAMS_GET
-    ).then(
-        (response) =>
-            handleServerResponse(response)
-    ).then((responseJson) => {
-        return responseJson;
-    }).catch((error) => {
-        console.error(error);
-        throw error;
-    });
 
-export const handleApiFetchPOST =
-    (restEndpoint, postRequest) => fetch(restEndpoint, postRequest
+export const handleApiFetch =
+    (restEndpoint, request) => fetch(restEndpoint, request
     ).then(
         (response) =>
             handleServerResponse(response)

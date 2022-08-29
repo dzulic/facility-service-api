@@ -28,8 +28,8 @@ class CalendarService(
         return if (rooms != null && rooms.isNotEmpty()) {
             agendaEntryRepository.findAllByRoomIdInAndTimeStartBetween(
                 rooms.map { UUID.fromString(it as String) },
-                selectedTimeStart,
-                selectedTimeStart.plusHours(1)
+                selectedTimeStart.minusDays(7),
+                selectedTimeStart.plusDays(7)
             ).map { it.toAgendaEntryDTO() }
         } else listOf()
     }
@@ -44,13 +44,11 @@ class CalendarService(
         // VALIDATE
         agendaEntryRepository.save(
             AgendaEntryEntity(
-                roomId = calendarDTO.roomId!!,
-                timeStart = OffsetDateTime.of(calendarDTO.selectedDate, calendarDTO.selectedTime, ZoneOffset.UTC),
+                roomId = calendarDTO.roomId,
+                timeStart = calendarDTO.selectedTimeStart,
                 reservedByUser = currentUser,
-                usePurposeDescription = calendarDTO.description ?: "No descr",
-                timeEnd = OffsetDateTime.of(
-                    calendarDTO.selectedDate, calendarDTO.selectedTime?.plusMinutes(45), ZoneOffset.UTC
-                ),
+                usePurposeDescription = calendarDTO.description,
+                timeEnd = calendarDTO.selectedTimeEnd,
             )
         )
     }
@@ -74,7 +72,7 @@ data class AgendaEntryDTO(
     val roomId: UUID,
     val timeStart: OffsetDateTime,
     val timeEnd: OffsetDateTime,
-    val usePurposeDescription: String,
+    val usePurposeDescription: String?,
     val reservedByTheUser: UUID
 )
 

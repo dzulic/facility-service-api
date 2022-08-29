@@ -115,18 +115,8 @@ class DayComponent extends Component {
     render() {
         return (<Box sx={{width: '50vw'}}>
 
-            <Timeline groups={[{
-                "id": "ae61d28e-866a-4ff7-8e6b-3756b315788b",
-                "title": "100",
-                "height": 80
-            }, {"id": "ae61d28e-866a-4ff7-8e6b-3756b315788c", "title": "1001", "height": 80}]}
-                      items={[{
-                          "id": 0,
-                          "group": "ae61d28e-866a-4ff7-8e6b-3756b315788b",
-                          "title": "This is test",
-                          "start_time": moment(),
-                          "end_time": moment().add(2, 'h')
-                      }]}
+            <Timeline groups={this.createGroups()}
+                      items={this.createItems()}
                       defaultTimeStart={defaultTimeStart}
                       defaultTimeEnd={defaultTimeEnd}
                       itemHeightRatio={0.75}

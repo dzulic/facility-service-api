@@ -1,4 +1,4 @@
-import {handleApiFetch} from "../api/Api";
+import {handleApiFetchGET, handleApiFetchPOST} from "../api/Api";
 import {call, put} from "redux-saga/effects";
 import {ActionTypes} from "./actions";
 import {AVAILABLE_ROOMS} from "../utils/Utils";
@@ -9,7 +9,7 @@ export function* getAllRooms() {
     try {
         const response = yield call(
             () => new Promise((resolve) => {
-                handleApiFetch(REST_ROOT_ENDPOINT + "rooms").then((_result) => {
+                handleApiFetchGET(REST_ROOT_ENDPOINT + "rooms").then((_result) => {
                     resolve(_result);
                 });
             }))

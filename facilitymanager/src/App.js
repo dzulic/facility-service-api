@@ -4,7 +4,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import {Routes, unstable_HistoryRouter as HistoryRouter, Route} from 'react-router-dom'
+import {Route, Routes, unstable_HistoryRouter as HistoryRouter} from 'react-router-dom'
 import NotFoundComponent from "./components/pages/NotFoundComponent";
 import HomeComponent from "./components/pages/HomeComponent";
 import RoomOverviewComponent from "./components/pages/RoomOverviewComponent";

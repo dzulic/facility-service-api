@@ -42,12 +42,16 @@ class CalendarController(private val calendarService: CalendarService) {
             HttpStatus.OK
         )
 
-    @PostMapping("/reservations")
+    @PostMapping(
+        "/reservations",
+        produces = ["application/json"],
+        consumes = ["application/json"]
+    )
     fun makeReservation(
         @RequestBody calendarDTO: CalendarDTO
     ): ResponseEntity<String?>? {
         calendarService.makeReservation(calendarDTO)
-        return ResponseEntity<String?>("Calendar Working", HttpStatus.OK)
+        return ResponseEntity(HttpStatus.OK)
     }
 
     @PatchMapping("/reservations/{id}")

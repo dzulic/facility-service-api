@@ -25,7 +25,7 @@ data class AgendaEntryEntity(
     val roomId: UUID,
     val timeStart: OffsetDateTime,
     val timeEnd: OffsetDateTime,
-    val usePurposeDescription: String,
+    val usePurposeDescription: String?,
     val reservedByUser: UUID,
 ) : Auditable()
 

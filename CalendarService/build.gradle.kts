@@ -57,6 +57,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
     implementation("org.springframework.boot:spring-boot-starter-webflux:2.7.3")
 
+    //SECUIRTY
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
     //configuration properties
     kapt("org.springframework.boot:spring-boot-configuration-processor:2.7.0")
@@ -79,6 +81,7 @@ dependencies {
     ktlint("com.pinterest:ktlint:${ktlintVersion}")
     developmentOnly("org.springframework.boot:spring-boot-devtools:2.7.0")
     testImplementation(kotlin("test"))
+
 
 }
 

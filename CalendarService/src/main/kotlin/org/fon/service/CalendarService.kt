@@ -6,12 +6,13 @@ import org.fon.dao.AgendaEntryRepository
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import java.time.OffsetDateTime
-import java.time.ZoneOffset
 import java.util.UUID
 
 @Service
 class CalendarService(
-    private val agendaEntryRepository: AgendaEntryRepository, private val roomServiceWebClient: WebClient
+    private val agendaEntryRepository: AgendaEntryRepository,
+    private val roomServiceWebClient: WebClient,
+    private val notificationWebClient: WebClient
 ) {
     /**
      * To show calendars of the rooms with reserved slots
@@ -41,16 +42,33 @@ class CalendarService(
 
     fun makeReservation(calendarDTO: CalendarDTO) {
         val currentUser = UUID.randomUUID()
-        // VALIDATE
-        agendaEntryRepository.save(
-            AgendaEntryEntity(
-                roomId = calendarDTO.roomId,
-                timeStart = calendarDTO.selectedTimeStart,
-                reservedByUser = currentUser,
-                usePurposeDescription = calendarDTO.description,
-                timeEnd = calendarDTO.selectedTimeEnd,
+
+        runCatching {
+            agendaEntryRepository.save(
+                AgendaEntryEntity(
+                    roomId = calendarDTO.roomId,
+                    reservedByUser = currentUser,
+                    usePurposeDescription = calendarDTO.description,
+                    timeStart = calendarDTO.selectedTimeStart,
+                    timeEnd = calendarDTO.selectedTimeEnd,
+                )
             )
-        )
+        }.onSuccess {
+            notificationWebClient.post()
+                .uri("/emails}")
+                .body(
+                    SendEmailDTO(
+                        "+31687004333",
+                        "You have made the reservation for the room id ${it.roomId} " +
+                                "from ${it.timeStart}-${it.timeEnd}",
+                        "You have booked a room"
+                    ),
+                    SendEmailDTO::class.java
+                )
+                .retrieve()
+                .toBodilessEntity()
+                .block()
+        }
     }
 
     fun editReservation(reservationId: UUID) {
@@ -85,4 +103,8 @@ data class RoomDTO(
     val universityId: UUID
 )
 
-data class RoomIdsDTO(val ids: List<UUID>)
+data class SendEmailDTO(
+    val to: String,
+    val subject: String,
+    val textTemplate: String
+)

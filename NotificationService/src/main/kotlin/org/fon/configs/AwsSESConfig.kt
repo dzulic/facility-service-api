@@ -1,28 +1,29 @@
-package web.service.notifications.config
+package org.fon.configs
 
+import com.amazonaws.auth.AWSCredentialsProvider
 import com.amazonaws.auth.AWSStaticCredentialsProvider
 import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.client.builder.AwsClientBuilder
-import com.amazonaws.services.sns.AmazonSNS
-import com.amazonaws.services.sns.AmazonSNSClientBuilder
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailService
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-@ConfigurationProperties(value = "features.sns")
-class AwsSNSConfig {
+@ConfigurationProperties(value = "features.ses")
+class AwsSESConfig {
     lateinit var accessKey: String
     lateinit var secretKey: String
     lateinit var serviceEndpoint: String
     lateinit var region: String
-    lateinit var fcmPlatformApplicationARN: String
 
-    fun getCredentials(): AWSStaticCredentialsProvider {
+    fun getCredentials(): AWSCredentialsProvider {
         return AWSStaticCredentialsProvider(BasicAWSCredentials(accessKey, secretKey))
     }
 
-    fun getSNSClient(): AmazonSNS {
+    fun getSESClient(): AmazonSimpleEmailService {
         val configuration = AwsClientBuilder.EndpointConfiguration(serviceEndpoint, region)
-        return AmazonSNSClientBuilder.standard().withEndpointConfiguration(configuration).build()
+        return AmazonSimpleEmailServiceClientBuilder.standard().withCredentials(getCredentials())
+            .withEndpointConfiguration(configuration).build()
     }
 }

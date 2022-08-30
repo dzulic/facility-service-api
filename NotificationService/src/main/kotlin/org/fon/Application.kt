@@ -1,13 +1,9 @@
-package web.service.notifications
+package org.fon
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringBootApplication(
-    scanBasePackages = [
-        "web.service.notifications"
-    ]
-)
+@SpringBootApplication
 class Application
 
 fun main(args: Array<String>) {

@@ -3,6 +3,11 @@ server:
 spring:
   application:
     name: calendar-service-api
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://bookaroom-fon.eu.auth0.com/
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/calendar
@@ -27,7 +32,10 @@ spring:
           use_second_level_cache: false
           use_structured_entries: false
           use_minimal_puts: false
-
 services:
   room-services:
     url: 'http://localhost:8082'
+  notification-services:
+    url: 'http://localhost:8083'
+auth0:
+  audience: http://localhost:8081

@@ -45,7 +45,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SendSMSRequest'
-        description: Send Email Request
+        description: Send SMS Request
         required: true
       responses:
         '200':

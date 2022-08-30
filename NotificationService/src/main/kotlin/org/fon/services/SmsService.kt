@@ -1,15 +1,14 @@
-package web.service.notifications.service
+package org.fon.services
 
 import com.amazonaws.services.sns.model.MessageAttributeValue
 import com.amazonaws.services.sns.model.PublishRequest
+import org.fon.dto.SendSMSDTO
 import org.springframework.stereotype.Service
-import web.service.notifications.TextMessagesApiService
-import web.service.notifications.config.AwsSNSConfig
-import web.service.notifications.model.SendSMSRequestDTO
+import org.fon.configs.AwsSNSConfig
 
 @Service
-class SmsService(private val awsSNSConfig: AwsSNSConfig) : TextMessagesApiService {
-    override fun sendSMS(sendSMSRequestDTO: SendSMSRequestDTO) {
+class SmsService(private val awsSNSConfig: AwsSNSConfig) {
+    fun sendSMS(sendSMSRequestDTO: SendSMSDTO) {
         val publishRequest =
             PublishRequest()
                 .let {
@@ -24,7 +23,9 @@ class SmsService(private val awsSNSConfig: AwsSNSConfig) : TextMessagesApiServic
                             )
                         )
                 }
-        awsSNSConfig.getSNSClient()
+        val response = awsSNSConfig.getSNSClient()
             .publish(publishRequest)
+
+        print(response)
     }
 }

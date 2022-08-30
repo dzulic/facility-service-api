@@ -1,27 +1,24 @@
 buildscript {
     dependencies {
         classpath("com.google.cloud.tools:jib-spring-boot-extension-gradle:0.1.0")
-
     }
 }
 
 plugins {
     id("application")
-    id("org.springframework.boot")
     id("org.jetbrains.kotlin.jvm")
     id("org.jetbrains.kotlin.plugin.spring")
     id("org.jetbrains.kotlin.kapt")
+    id("org.springframework.boot")
     id("idea")
     id("jacoco")
-    id("org.jetbrains.kotlin.plugin.jpa") version ("1.6.10")
-
 }
 
 application {
-    mainClass.set("org.fon.rooms.Application")
+    mainClass.set("org.fon.ApplicationKt")
 }
 
-group = "org.fon.rooms"
+group = "org.fon"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
@@ -32,12 +29,10 @@ configure<JavaPluginExtension> {
 sourceSets.main {
     java.srcDirs("src/main/kotlin/org/fon")
 }
-
 repositories {
     mavenCentral()
     maven { url = uri("https://repo.spring.io/milestone") }
 }
-
 
 configurations {
     developmentOnly
@@ -55,22 +50,20 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.2")
     implementation("org.springframework.boot:spring-boot-starter-validation:2.7.0")
     implementation("org.springframework.retry:spring-retry:1.3.3")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.boot:spring-boot-starter-webflux:2.7.3")
     implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.0-rc2")
     implementation("javax.xml.bind:jaxb-api:2.3.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
-    //SECUIRTY
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("org.springframework.boot:spring-boot-starter-webflux:2.7.3")
+
 
     //configuration properties
     kapt("org.springframework.boot:spring-boot-configuration-processor:2.7.0")
 
-    //DB
-    implementation("org.postgresql:postgresql:42.3.5")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.0")
-    implementation("org.flywaydb:flyway-core:8.5.11")
+//    //DB
+//    implementation("org.postgresql:postgresql:42.3.5")
+//    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.0")
+//    implementation("org.flywaydb:flyway-core:8.5.11")
 
     //MapStruct
     implementation("com.github.pozo:mapstruct-kotlin:${mapStructKotlinExtVersion}")
@@ -86,6 +79,16 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools:2.7.0")
     testImplementation(kotlin("test"))
 
+    //AWS
+
+    implementation("com.amazonaws:aws-java-sdk-bom:1.11.228")
+    implementation("com.amazonaws:aws-java-sdk-sns:1.12.292")
+    implementation("com.amazonaws:aws-java-sdk-ses:1.12.292")
+
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks

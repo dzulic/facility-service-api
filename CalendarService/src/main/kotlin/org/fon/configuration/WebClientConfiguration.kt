@@ -11,7 +11,9 @@ import reactor.netty.http.client.HttpClient
 @Configuration
 class WebClientConfiguration(
     @Value("\${services.room-services.url}")
-    private val roomServiceUrl: String
+    private val roomServiceUrl: String,
+    @Value("\${services.notification-services.url}")
+    private val notificationServiceUrl: String
 ) {
     @Bean
     fun roomServiceWebClient(): WebClient {
@@ -21,4 +23,11 @@ class WebClientConfiguration(
             .build()
     }
 
+    @Bean
+    fun notificationWebClient(): WebClient {
+        return WebClient.builder()
+            .baseUrl(notificationServiceUrl)
+            .clientConnector(ReactorClientHttpConnector(HttpClient.create()))
+            .build()
+    }
 }

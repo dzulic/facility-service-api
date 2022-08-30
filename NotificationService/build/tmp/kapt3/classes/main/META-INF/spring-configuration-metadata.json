@@ -1,0 +1,57 @@
+{
+  "groups": [
+    {
+      "name": "features.ses",
+      "type": "org.fon.configs.AwsSESConfig",
+      "sourceType": "org.fon.configs.AwsSESConfig"
+    },
+    {
+      "name": "features.sns",
+      "type": "org.fon.configs.AwsSNSConfig",
+      "sourceType": "org.fon.configs.AwsSNSConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "features.ses.access-key",
+      "type": "java.lang.String",
+      "sourceType": "org.fon.configs.AwsSESConfig"
+    },
+    {
+      "name": "features.ses.region",
+      "type": "java.lang.String",
+      "sourceType": "org.fon.configs.AwsSESConfig"
+    },
+    {
+      "name": "features.ses.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "org.fon.configs.AwsSESConfig"
+    },
+    {
+      "name": "features.ses.service-endpoint",
+      "type": "java.lang.String",
+      "sourceType": "org.fon.configs.AwsSESConfig"
+    },
+    {
+      "name": "features.sns.access-key",
+      "type": "java.lang.String",
+      "sourceType": "org.fon.configs.AwsSNSConfig"
+    },
+    {
+      "name": "features.sns.region",
+      "type": "java.lang.String",
+      "sourceType": "org.fon.configs.AwsSNSConfig"
+    },
+    {
+      "name": "features.sns.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "org.fon.configs.AwsSNSConfig"
+    },
+    {
+      "name": "features.sns.service-endpoint",
+      "type": "java.lang.String",
+      "sourceType": "org.fon.configs.AwsSNSConfig"
+    }
+  ],
+  "hints": []
+}

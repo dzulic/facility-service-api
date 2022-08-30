@@ -1,12 +1,16 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: notification-service-api
 features:
   sns:
-    accessKey: mAKIAVT6RKMRAND2T5OG2
-    secretKey:TOREPLACE
-    serviceEndpoint: sns.eu-central-1.amazonaws.com
-    fcmPlatformApplicationARN: arn:aws:sns:eu-central-1:386449171520:app/GCM/NotificationPlatform
-    region: eu-central-1
+    accessKey: AKIAVT6RKMRALECJI2PJ
+    secretKey: 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
+    serviceEndpoint: sns.us-east-1.amazonaws.com
+    region: us-east-1
   ses:
-    accessKey: AKIAVT6RKMRALRDYY5SP
-    secretKey: TOREPLACE
+    accessKey: AKIAVT6RKMRAGUB7QNEU
+    secretKey: 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
     serviceEndpoint: https://email.eu-central-1.amazonaws.com
     region: eu-central-1

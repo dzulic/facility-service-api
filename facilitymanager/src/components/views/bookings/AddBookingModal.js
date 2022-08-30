@@ -24,6 +24,7 @@ const style = {
 const formatDate = (date, time) => {
     return new Date(`${moment(date).format("yyyy-MM-DD")}T${time}:00.000+02:00`).toISOString()
 }
+const formName = 'bookRoomModule'
 
 class AddBookingModal extends Component {
     constructor() {
@@ -118,10 +119,10 @@ class AddBookingModal extends Component {
 
 function mapStateToProps(state) {
     return {
-        formName: 'bookRoomModule', formValues: getFormValues('bookRoomModule')(state)
+        formName: formName, formValues: getFormValues(formName)(state)
     };
 }
 
 export default connect(mapStateToProps)(reduxForm({
-    form: 'bookRoomModule'
+    form: formName
 })(AddBookingModal));

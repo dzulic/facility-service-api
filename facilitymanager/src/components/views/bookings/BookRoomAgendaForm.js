@@ -3,11 +3,11 @@ import moment from 'moment'
 import React, {Component} from "react";
 import Box from "@mui/material/Box";
 import {CustomHeader} from "react-calendar-timeline/lib/lib/headers/CustomHeader";
-import {AGENDA_ENTRIES, AVAILABLE_ROOMS, getValueAppPropertyStore, ROOM_TYPE} from "../../utils/Utils";
+import {AGENDA_ENTRIES, AVAILABLE_ROOMS, getValueAppPropertyStore, ROOM_TYPE} from "../../../utils/Utils";
 import {connect} from "react-redux";
 import {reduxForm} from "redux-form";
 import TodayMarker from "react-calendar-timeline/lib/lib/markers/public/TodayMarker";
-import {ActionTypes} from "../../redux/actions";
+import {ActionTypes} from "../../../redux/actions";
 
 const defaultTime = moment()
     .startOf("day")
@@ -18,7 +18,7 @@ const defaultTimeEnd = defaultTime
     .add(13, "h")
     .toDate();
 
-class DayComponent extends Component {
+class BookRoomAgendaForm extends Component {
 
     createGroups = () => {
         const {availableRooms, roomType} = this.props
@@ -42,7 +42,7 @@ class DayComponent extends Component {
                 return {
                     id: index,
                     group: entry.roomId,
-                    title: entry.usePurposeDescription,
+                    title: entry.description,
                     start_time: moment(entry.timeStart),
                     end_time: moment(entry.timeEnd).add(2, 'h')
                 }
@@ -113,7 +113,7 @@ class DayComponent extends Component {
     // };
 
     render() {
-        return (<Box sx={{width: '50vw'}}>
+        return (<Box sx={{width: '40vw',margin:'auto'}}>
 
             <Timeline groups={this.createGroups()}
                       items={this.createItems()}
@@ -192,6 +192,6 @@ export default connect(mapStateToProps)(reduxForm({
     // TO REMOVE
     destroyOnUnmount: false,
     enableReinitialize: false,
-})(DayComponent))
+})(BookRoomAgendaForm))
 
 

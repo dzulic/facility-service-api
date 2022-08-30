@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import {Box} from "@mui/system";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import moment from "moment";
 import {connect} from "react-redux";
 import {Field, Form, getFormValues, reduxForm} from "redux-form";
-import {ActionTypes} from "../../redux/actions";
+import {ActionTypes} from "../../../redux/actions";
+import {renderTextField} from "../../base/MuiTextFieldRendering";
 
 const style = {
     position: 'absolute',
@@ -20,25 +21,11 @@ const style = {
 };
 
 
-const renderTextField = ({
-                             input, label, meta: {touched, error}, ...custom
-                         }) => {
-    return <TextField
-        value={input.value}
-        hintText={label}
-        floatingLabelText={label}
-        errorText={touched && error}
-        {...input}
-        {...custom}
-    />
-
-}
-
 const formatDate = (date, time) => {
     return new Date(`${moment(date).format("yyyy-MM-DD")}T${time}:00.000+02:00`).toISOString()
 }
 
-class AddTimelineItemModalComponent extends Component {
+class AddBookingModal extends Component {
     constructor() {
         super();
         this.state = {
@@ -137,4 +124,4 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(reduxForm({
     form: 'bookRoomModule'
-})(AddTimelineItemModalComponent));
+})(AddBookingModal));

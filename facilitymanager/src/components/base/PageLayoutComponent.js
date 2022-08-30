@@ -7,7 +7,7 @@ import {Typography} from "@mui/material";
 
 class PageLayoutComponent extends Component {
     render() {
-        return (<Container aria-expanded={"true"} sx={{width: '100vw'}}>
+        return (<Container aria-expanded={"true"}>
             <Box
                 sx={{
                     display: 'grid',

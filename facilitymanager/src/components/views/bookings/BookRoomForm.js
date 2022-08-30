@@ -1,15 +1,24 @@
 import React, {Component} from 'react';
-import DatePickerComponent from '../custom/DatePickerComponent';
+import BookingDatePicker from './BookingDatePickerComponent';
 import Box from '@mui/material/Box';
-import DropDownComponent from "../custom/DropDownComponent";
+import BookingRoomType from "./BookingRoomTypeComponent";
 import {connect} from "react-redux";
-import {getFormValues, reduxForm} from "redux-form";
-import {AVAILABLE_ROOMS, getValueAppPropertyStore, ROOM_TYPE, SELECTED_DATE, SELECTED_TIME} from "../../utils/Utils";
+import {reduxForm} from "redux-form";
+import {
+    AGENDA_ENTRIES,
+    AVAILABLE_ROOMS,
+    getValueAppPropertyStore,
+    ROOM_TYPE,
+    SELECTED_DATE,
+    SELECTED_TIME
+} from "../../../utils/Utils";
 import {Button} from "@mui/material";
-import {ActionTypes} from "../../redux/actions";
+import {ActionTypes} from "../../../redux/actions";
+import ModalDialog from "../../base/ModalDialog";
+import AgendaBooking from "./BookRoomAgendaForm";
 
 
-class BookRoomComponent extends Component {
+class BookRoomForm extends Component {
     constructor(props) {
         super(props);
     }
@@ -44,13 +53,25 @@ class BookRoomComponent extends Component {
                     gap: 3,
                     gridTemplateRows: 'auto'
                 }}>
-                <form name="app">
-                    <DropDownComponent></DropDownComponent>
-                    {(this.props.roomType !== undefined && this.props.roomType != null) && <DatePickerComponent/>
+                <form>
+                    <ModalDialog/>
+                    <BookingRoomType></BookingRoomType>
+                    {(this.props.roomType !== undefined && this.props.roomType != null) && <BookingDatePicker/>
                     }
 
                     {(this.props.roomType !== undefined && this.props.roomType != null && this.props.selectedDate != null) &&
                         <Button variant="contained" onClick={this.onSubmit}>SCHEDULE A ROOM</Button>
+                    }
+                    {this.props.agendaEntries &&
+                        <Box
+                            sx={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(1, 1fr)',
+                                gridTemplateRows: 'auto',
+                                width: '50vw'
+                            }}>
+                            <AgendaBooking></AgendaBooking>
+                        </Box>
                     }
                 </form>
             </Box>
@@ -59,16 +80,14 @@ class BookRoomComponent extends Component {
     }
 }
 
-const selector = getFormValues('app');
 
 function mapStateToProps(state) {
     return {
-        formName: 'app',
-        formValues: selector(state),
         roomType: getValueAppPropertyStore(state, ROOM_TYPE),
         selectedDate: getValueAppPropertyStore(state, SELECTED_DATE),
         selectedTime: getValueAppPropertyStore(state, SELECTED_TIME),
-        availableRooms: getValueAppPropertyStore(state, AVAILABLE_ROOMS)
+        availableRooms: getValueAppPropertyStore(state, AVAILABLE_ROOMS),
+        agendaEntries: getValueAppPropertyStore(state, AGENDA_ENTRIES)
     }
 }
 
@@ -77,4 +96,4 @@ export default connect(mapStateToProps)(reduxForm({
     // TO REMOVE
     destroyOnUnmount: false,
     enableReinitialize: true,
-})(BookRoomComponent))
+})(BookRoomForm))

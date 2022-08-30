@@ -1,8 +1,8 @@
 import {call, put} from "redux-saga/effects";
-import {handleApiFetchGET, handleApiFetchPOST} from "../api/Api";
-import {AGENDA_ENTRIES} from "../utils/Utils";
-import {ActionTypes} from "./actions";
-import {history} from "./history";
+import {handleApiFetchGET, handleApiFetchPOST} from "../../api/Api";
+import {AGENDA_ENTRIES} from "../../utils/Utils";
+import {ActionTypes} from "../actions";
+import {history} from "../../utils/history";
 
 export const REST_ROOT_ENDPOINT = "http://localhost:8081/calendars";
 
@@ -14,6 +14,8 @@ export function* submitScheduleRoom(action) {
         selectedTimeEnd: action.property.selectedTimeEnd,
         description: action.property.description
     }))
+    // let accessToken = action.property.accessToken
+    // const accessTokenResolved = yield call(accessToken)
 
     try {
         const response = yield call(() => new Promise((resolve) => {
@@ -61,7 +63,8 @@ export function* getAvailableRoomsForTimeAndType(action) {
                     key: AGENDA_ENTRIES, value: response
                 }
             });
-            yield call(history.push, "/rooms");
+            //TODO REMOVE HISTORY
+            // yield call(history.push, "/rooms");
         }
 
     } catch

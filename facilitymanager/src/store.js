@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux'
-import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit'
+import {configureStore} from '@reduxjs/toolkit'
 import {AppReducer} from './redux/reducers/reducer'
 import {modalReducer} from './redux/reducers/modalReducer'
 import createSagaMiddleware from 'redux-saga'
 import sagas from './redux/sagas'
-import {history} from "./redux/history"
+import {history} from "./utils/history"
 import {reducer as reduxFormReducer} from "redux-form";
 
 const reducers = combineReducers({

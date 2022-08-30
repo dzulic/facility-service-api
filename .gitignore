@@ -8,10 +8,8 @@
 /.idea/
 /gradle/
 /RoomService/RoomService.iml
-/UserService/UserService.iml
 /CalendarService/CalendarService.iml
 /NotificationService/NotificationService.iml
-/UserService/build/
 /CalendarService/build/
 /RoomService/build/
 /NotificationService/.gradle/

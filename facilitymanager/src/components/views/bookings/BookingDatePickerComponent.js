@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment';
-import {LocalizationProvider, StaticDateTimePicker} from "@mui/x-date-pickers";
+import {LocalizationProvider, DesktopDatePicker} from "@mui/x-date-pickers";
 import {Box, FormControl, TextField} from "@mui/material";
 import {connect} from "react-redux";
-import {ActionTypes} from "../../redux/actions";
-import {getValueAppPropertyStore, SELECTED_DATE} from "../../utils/Utils";
+import {ActionTypes} from "../../../redux/actions";
+import {getValueAppPropertyStore, SELECTED_DATE} from "../../../utils/Utils";
 import moment from "moment";
 
 const DATE_FORMAT = 'YYYY-MM-DDTHH:mm:00.000+02:00';
 
-class DatePickerComponent extends Component {
+class BookingDatePickerComponent extends Component {
     constructor(props) {
         super(props);
     }
@@ -33,7 +33,7 @@ class DatePickerComponent extends Component {
             <Box sx={{padding: 5, my: 4}}>
                 <FormControl fullWidth={true}>
                     <LocalizationProvider dateAdapter={AdapterMoment}>
-                        <StaticDateTimePicker
+                        <DesktopDatePicker
                             componentsProps={{
                                 actionBar: {
                                     actions: []
@@ -46,7 +46,7 @@ class DatePickerComponent extends Component {
                             inputFormat="DD/MM/yyyy"
                             toolbarTitle='Please select date and time to book a room'
                             openTo="day"
-                            sx={{width: 'inherit'}}
+                            sx={{width: '100%'}}
                             ampm={false}
                             value={this.props.selectedDate !== undefined ? moment(this.props.selectedDate, DATE_FORMAT) : null}
                             onChange={(newValue) => {
@@ -67,6 +67,6 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(DatePickerComponent)
+export default connect(mapStateToProps)(BookingDatePickerComponent)
 
 

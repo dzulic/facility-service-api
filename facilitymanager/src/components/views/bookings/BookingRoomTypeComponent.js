@@ -1,9 +1,9 @@
 import {Box, FormControl, Input, InputLabel, MenuItem, Select} from "@mui/material";
 import React, {Component} from "react";
-import {ActionTypes} from '../../redux/actions';
+import {ActionTypes} from '../../../redux/actions';
 import {connect} from "react-redux";
 import {Field} from 'redux-form'
-import {ROOM_TYPE} from "../../utils/Utils";
+import {ROOM_TYPE} from "../../../utils/Utils";
 
 let options = [
     {label: '', value: undefined},
@@ -30,7 +30,7 @@ const renderSelectField = ({
     </FormControl>
 )
 
-class DropDownComponent extends Component {
+class BookingRoomTypeComponent extends Component {
     handleChange = (event) => {
         if (event !== undefined) {
             const {dispatch} = this.props
@@ -60,4 +60,4 @@ class DropDownComponent extends Component {
     }
 }
 
-export default connect()(DropDownComponent)
+export default connect()(BookingRoomTypeComponent)

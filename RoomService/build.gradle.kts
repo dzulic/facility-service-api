@@ -57,13 +57,10 @@ dependencies {
     implementation("org.springframework.retry:spring-retry:1.3.3")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-webflux:2.7.3")
-
-
     implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.0-rc2")
     implementation("javax.xml.bind:jaxb-api:2.3.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
-
 
     //configuration properties
     kapt("org.springframework.boot:spring-boot-configuration-processor:2.7.0")

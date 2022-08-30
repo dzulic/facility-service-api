@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Box from "@mui/material/Box";
 
-class NotFoundComponent extends Component {
+class NotFoundPage extends Component {
     constructor(props) {
         super(props);
     }
@@ -20,4 +20,4 @@ class NotFoundComponent extends Component {
     }
 }
 
-export default NotFoundComponent
+export default NotFoundPage

@@ -1,0 +1,7 @@
+{
+  "domain": "bookaroom-fon.eu.auth0.com",
+  "clientId": "pzQzQA9sAuIZz3740i2k9w5CaKe5bHwq",
+  "audience": "https://bookaroom-fon.eu.auth0.com/api/v2/",
+  "connection": "Username-Password-Authentication",
+  "url": "https://bookaroom-fon.eu.auth0.com"
+}

@@ -1,5 +1,5 @@
 import {put} from "redux-saga/effects";
-import {ActionTypes} from "./actions";
+import {ActionTypes} from "../actions";
 
 //add or edit single property
 export function* addEditAppPropertySaga(action) {
@@ -47,4 +47,8 @@ export function* showModalDialog(action) {
             type: ActionTypes.SHOW_MODAL_STORE, property: action.property
         });
     }
+}
+
+export function* solvePromise(action) {
+    yield Promise.resolve(action.property.accessToken);
 }

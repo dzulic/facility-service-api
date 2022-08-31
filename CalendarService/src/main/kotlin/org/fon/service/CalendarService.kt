@@ -72,7 +72,7 @@ class CalendarService(
     }
 
     fun editReservation(reservationId: UUID) {
-        val reservation = agendaEntryRepository.getReferenceById(reservationId)
+        val reservation = agendaEntryRepository.getById(reservationId)
         agendaEntryRepository.save(reservation);
     }
 

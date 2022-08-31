@@ -8,6 +8,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/facilities
     username: postgres
     password: postgres
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://bookaroom-fon.eu.auth0.com/
   flyway:
     enabled: true
     baseline-version: 0
@@ -30,3 +35,5 @@ eureka:
   instance:
     statusPageUrlPath: ${server.servletPath}/info
     healthCheckUrlPath: ${server.servletPath}/health
+auth0:
+  audience: https://bookaroom-fon.eu.auth0.com/api/v2/

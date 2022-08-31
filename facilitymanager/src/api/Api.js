@@ -3,20 +3,21 @@ myHeaders.append("content-type", "application/json");
 myHeaders.append("accept", "application/json");
 
 export const handleApiFetchGET =
-    (restEndpoint) => handleApiFetch(restEndpoint, null, 'GET')
+    (restEndpoint, bearerToken) => handleApiFetch(restEndpoint, null, bearerToken, 'GET')
 export const handleApiFetchPATCH =
-    (restEndpoint, body, customHeader) => handleApiFetch(restEndpoint, JSON.stringify(body), 'PATCH', customHeader)
+    (restEndpoint, body, bearerToken) => handleApiFetch(restEndpoint, JSON.stringify(body), bearerToken, 'PATCH')
 export const handleApiFetchPOST =
-    (restEndpoint, body) => handleApiFetch(restEndpoint, JSON.stringify(body), 'POST')
+    (restEndpoint, body, bearerToken) => handleApiFetch(restEndpoint, JSON.stringify(body), bearerToken, 'POST')
 
 export const handleApiFetch =
-    (restEndpoint, body, method, customHeader) => {
-        fetch(restEndpoint, {
+    (restEndpoint, body, bearerToken, method) => {
+        myHeaders.append("Authorization", `Bearer ${bearerToken}`)
+        return fetch(restEndpoint, {
             method: method, // *GET, POST, PUT, DELETE, etc.
-            headers: customHeader || myHeaders,
+            headers: myHeaders,
             body: body
         })
-            .then(response => response.text())
             .then(result => console.log(result))
+            .then(response => response)
             .catch(error => console.log('error', error));
     }

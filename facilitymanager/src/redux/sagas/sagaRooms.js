@@ -5,15 +5,16 @@ import {AVAILABLE_ROOMS} from "../../utils/Utils";
 
 export const REST_ROOT_ENDPOINT = "http://localhost:8082/";
 
-export function* getAllRooms() {
+export function* getAllRooms(action) {
+    const accessToken = yield call(action.property.accessToken)
+
     try {
-        const response = yield call(
-            () => new Promise((resolve) => {
-                handleApiFetchGET(REST_ROOT_ENDPOINT + "rooms").then((_result) => {
+        const response = yield call(() => new Promise((resolve) => {
+            handleApiFetchGET(REST_ROOT_ENDPOINT + "rooms", accessToken)
+                .then((_result) => {
                     resolve(_result);
                 });
-            }))
-
+        }))
 
         if (response === true) {
             //redirect to homepage
@@ -30,8 +31,7 @@ export function* getAllRooms() {
             });
         }
 
-    } catch
-        (e) {
+    } catch (e) {
         console.log(e)
         yield put({
             type: 'SHOW_ERROR_MODAL'

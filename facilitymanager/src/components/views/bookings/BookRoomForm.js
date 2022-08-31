@@ -16,6 +16,7 @@ import {Button} from "@mui/material";
 import {ActionTypes} from "../../../redux/actions";
 import ModalDialog from "../../base/ModalDialog";
 import AgendaBooking from "./BookRoomAgendaForm";
+import {withAuth0} from "@auth0/auth0-react";
 
 
 class BookRoomForm extends Component {
@@ -24,20 +25,23 @@ class BookRoomForm extends Component {
     }
 
     componentDidMount() {
+        const {getAccessTokenSilently} = this.props.auth0;
         const {dispatch, availableRooms} = this.props
         if (availableRooms == null) {
-            dispatch({type: ActionTypes.GET_ALL_ROOMS})
+            dispatch({type: ActionTypes.GET_ALL_ROOMS, property: {accessToken: getAccessTokenSilently}})
         }
     }
 
     onSubmit = () => {
+        const {getAccessTokenSilently} = this.props.auth0;
         const {dispatch, selectedDate, selectedTime, roomType} = this.props;
         dispatch({
             type: ActionTypes.GET_ROOMS_AVAILABILITY,
             property: {
                 roomType: roomType,
                 selectedDate: selectedDate,
-                selectedTime: selectedTime
+                selectedTime: selectedTime,
+                accessToken: getAccessTokenSilently
             }
         });
 
@@ -91,9 +95,9 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(reduxForm({
+export default withAuth0(connect(mapStateToProps)(reduxForm({
     form: "app",
     // TO REMOVE
     destroyOnUnmount: false,
     enableReinitialize: true,
-})(BookRoomForm))
+})(BookRoomForm)))

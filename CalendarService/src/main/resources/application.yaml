@@ -8,6 +8,7 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://bookaroom-fon.eu.auth0.com/
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/calendar
@@ -38,4 +39,4 @@ services:
   notification-services:
     url: 'http://localhost:8083'
 auth0:
-  audience: http://localhost:8081
+  audience: https://bookaroom-fon.eu.auth0.com/api/v2/

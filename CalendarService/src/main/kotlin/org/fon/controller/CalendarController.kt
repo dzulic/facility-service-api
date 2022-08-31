@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.time.OffsetDateTime
 import java.util.UUID
 
-@CrossOrigin(origins = ["http://localhost:3000"], maxAge = 3600)
+@CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/calendars")
 class CalendarController(private val calendarService: CalendarService) {

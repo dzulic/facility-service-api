@@ -2,32 +2,22 @@ import {call, put} from "redux-saga/effects";
 import {handleApiFetchGET, handleApiFetchPOST} from "../../api/Api";
 import {AGENDA_ENTRIES} from "../../utils/Utils";
 import {ActionTypes} from "../actions";
-import {history} from "../../utils/history";
 
 export const REST_ROOT_ENDPOINT = "http://localhost:8081/calendars";
 
 
 export function* submitScheduleRoom(action) {
-    console.log(" json", JSON.stringify({
+    const accessToken = yield call(action.property.accessToken)
+
+    let body = {
         roomId: action.property.roomId,
         selectedTimeStart: action.property.selectedTimeStart,
         selectedTimeEnd: action.property.selectedTimeEnd,
         description: action.property.description
-    }))
-    // let accessToken = action.property.accessToken
-    // const accessTokenResolved = yield call(accessToken)
+    }
 
     try {
-        const response = yield call(() => new Promise((resolve) => {
-            handleApiFetchPOST(REST_ROOT_ENDPOINT + "/reservations", {
-                roomId: action.property.roomId,
-                selectedTimeStart: action.property.selectedTimeStart,
-                selectedTimeEnd: action.property.selectedTimeEnd,
-                description: action.property.description
-            }).then((_result) => {
-                resolve(_result);
-            });
-        }))
+        const response = handleApiFetchPOST(REST_ROOT_ENDPOINT + "/reservations", body, accessToken)
 
         if (response.success === false) {
             throw new Error(response.message);
@@ -46,13 +36,17 @@ export function* submitScheduleRoom(action) {
 }
 
 export function* getAvailableRoomsForTimeAndType(action) {
+    const accessToken = yield call(action.property.accessToken)
 
     try {
         const response = yield call(() => new Promise((resolve) => {
-            handleApiFetchGET(`${REST_ROOT_ENDPOINT}/availability?${new URLSearchParams({
-                selectedTimeStart: action.property.selectedDate,
-                roomType: action.property.roomType
-            })}`).then((_result) => {
+            handleApiFetchGET(
+                `${REST_ROOT_ENDPOINT}/availability?${new URLSearchParams({
+                    selectedTimeStart: action.property.selectedDate,
+                    roomType: action.property.roomType
+                })}`,
+                accessToken
+            ).then((_result) => {
                 resolve(_result);
             });
         }))

@@ -1,10 +1,3 @@
-buildscript {
-    dependencies {
-        classpath("com.google.cloud.tools:jib-spring-boot-extension-gradle:0.1.0")
-
-    }
-}
-
 plugins {
     id("application")
     id("org.springframework.boot")
@@ -14,6 +7,7 @@ plugins {
     id("idea")
     id("jacoco")
     id("org.jetbrains.kotlin.plugin.jpa") version ("1.6.10")
+    id("io.spring.dependency-management")
 
 }
 
@@ -61,8 +55,8 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.0-rc2")
     implementation("javax.xml.bind:jaxb-api:2.3.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
-    //SECUIRTY
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    //SECURITY
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:2.4.1")
 
     //configuration properties
     kapt("org.springframework.boot:spring-boot-configuration-processor:2.7.0")

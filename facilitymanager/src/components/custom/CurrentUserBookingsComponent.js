@@ -1,45 +1,58 @@
 import Box from "@mui/material/Box";
-import React from "react";
+import React, {Component} from "react";
 import {Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CircleIcon from '@mui/icons-material/Circle';
+import {connect} from "react-redux";
+import {AVAILABLE_ROOMS, CURRENT_USER_ENTRIES, getValueAppPropertyStore, ROOM_TYPE} from "../../utils/Utils";
+import moment from "moment";
 
-function CurrentUserBookingsComponent() {
-    const [dense] = React.useState(false);
-    const [secondary] = React.useState(false);
+class CurrentUserBookingsComponent extends Component {
 
-    function generate(element) {
-        return [0, 1, 2].map((value) =>
-            React.cloneElement(element, {
-                key: value,
-            }),
-        );
+    generate = (element) => {
+        const {currentUserEntries, availableRooms} = this.props
+        if (currentUserEntries != null && availableRooms !== null) {
+            return currentUserEntries.map((value) => {
+                console.log(value)
+                let room = availableRooms.filter((it) => it.id === value.roomId)[0]
+                console.log("r", room)
+                return React.cloneElement(element, {
+                    key: value.id
+                }, (
+                    <><ListItemText sx={{fontSize: '0.1vw'}}
+                                    primary={"Time of your booking:" + " " + moment(value.timeStart).format("HH:mm DD/MM/YYYY")}
+                                    secondary={"At room:" + " " + room.roomId}
+                    />
+                        <ListItemAvatar>
+                            <Avatar sx={{'backgroundColor': 'transparent'}}>
+                                <CircleIcon fontSize="small" color="primary"/>
+                            </Avatar>
+                        </ListItemAvatar></>))
+            })
+        }
     }
 
-    return (<Box sx={{paddingTop: 5}}>
-        <Typography variant='h6'>Your listings</Typography>
-        <List dense={dense}>
-            {generate(
-                <ListItem
-                    secondaryAction={
-                        <IconButton edge="end" aria-label="delete">
-                            <DeleteIcon/>
-                        </IconButton>
-                    }
-                >
-                    <ListItemAvatar>
-                        <Avatar sx={{'backgroundColor': 'transparent'}}>
-                            <CircleIcon fontSize="small" color="primary"/>
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText sx={{fontSize: '0.1vw'}}
-                                  primary="Single-line item"
-                                  secondary={secondary ? 'Secondary text' : null}
-                    />
-                </ListItem>
-            )}
-        </List>
-    </Box>)
+    render() {
+        return (<Box sx={{paddingTop: 5}}>
+            <Typography variant='h6'>Your listings</Typography>
+            <List>
+                {this.generate(<ListItem
+                    secondaryAction={<IconButton edge="end" aria-label="delete">
+                        <DeleteIcon/>
+                    </IconButton>}>
+                </ListItem>)}
+            </List>
+        </Box>)
+    }
 }
 
-export default CurrentUserBookingsComponent
+function
+
+mapStateToProps(state) {
+    return {
+        currentUserEntries: getValueAppPropertyStore(state, CURRENT_USER_ENTRIES),
+        availableRooms: getValueAppPropertyStore(state, AVAILABLE_ROOMS),
+    };
+}
+
+export default connect(mapStateToProps)(CurrentUserBookingsComponent);

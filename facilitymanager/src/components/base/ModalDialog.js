@@ -21,7 +21,6 @@ class ModalDialog extends React.Component {
 
     render() {
         const {modalDialog} = this.props;
-        console.log("MODAL DIALOG", modalDialog)
         const content =
             (modalDialog.SHOW_ADD_BOOKING_MODAL &&
                 <AddTimelineItemModalComponent closeMethod={this.onClose} property={modalDialog.SHOW_MODAL_PROPERTY}/>)

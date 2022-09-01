@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment';
 import {LocalizationProvider, DesktopDatePicker} from "@mui/x-date-pickers";
-import {Box, FormControl, TextField} from "@mui/material";
+import {Box, FormControl, TextField, Typography} from "@mui/material";
 import {connect} from "react-redux";
 import {ActionTypes} from "../../../redux/actions";
 import {getValueAppPropertyStore, SELECTED_DATE} from "../../../utils/Utils";
@@ -32,6 +32,7 @@ class BookingDatePickerComponent extends Component {
         return (
             <Box sx={{padding: 5, my: 4}}>
                 <FormControl fullWidth={true}>
+                    <Typography component="h5">Choose a date</Typography>
                     <LocalizationProvider dateAdapter={AdapterMoment}>
                         <DesktopDatePicker
                             componentsProps={{

@@ -8,7 +8,6 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://bookaroom-fon.eu.auth0.com/
-
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/calendar
@@ -16,11 +15,11 @@ spring:
     password: postgres
   flyway:
     baseline-on-migrate: true
-    enabled: true
+    enabled: false
     baseline-version: 0
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         jdbc:
@@ -40,3 +39,9 @@ services:
     url: 'http://localhost:8083'
 auth0:
   audience: https://bookaroom-fon.eu.auth0.com/api/v2/
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security: DEBUG
+

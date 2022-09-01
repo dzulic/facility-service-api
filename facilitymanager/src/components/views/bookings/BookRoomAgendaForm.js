@@ -36,13 +36,14 @@ class BookRoomAgendaForm extends Component {
     createItems = () => {
         const {agendaEntries} = this.props
         let items = []
+        console.log("ITEMS", agendaEntries)
 
         if (agendaEntries !== null) {
             items = agendaEntries.map((entry, index) => {
                 return {
                     id: index,
                     group: entry.roomId,
-                    title: entry.description,
+                    title: entry.usePurposeDescription,
                     start_time: moment(entry.timeStart),
                     end_time: moment(entry.timeEnd).add(2, 'h')
                 }
@@ -60,57 +61,6 @@ class BookRoomAgendaForm extends Component {
         const {dispatch} = this.props
         dispatch({type: ActionTypes.SHOW_MODAL, property: {groupId: groupId, time: moment(time).format()}})
     }
-    //TODO DECIDE WHAT TO DO WITH THIS
-    // itemRenderer = ({item,
-    //                     timelineContext,
-    //                     itemContext,
-    //                     getItemProps,
-    //                     getResizeProps
-    //                 }) => {
-    //     console.log("RENDERING ITEM")
-    //     const {left: leftResizeProps, right: rightResizeProps} = getResizeProps();
-    //     const backgroundColor = itemContext.selected
-    //         ? itemContext.dragging
-    //             ? "red"
-    //             : item.selectedBgColor
-    //         : item.bgColor;
-    //     const borderColor = itemContext.resizing ? "red" : item.color;
-    //     return (
-    //         <div
-    //             {...getItemProps({
-    //                 style: {
-    //                     backgroundColor,
-    //                     color: item.color,
-    //                     borderColor,
-    //                     borderStyle: "solid",
-    //                     borderWidth: 1,
-    //                     borderRadius: 4,
-    //                     borderLeftWidth: itemContext.selected ? 3 : 1,
-    //                     borderRightWidth: itemContext.selected ? 3 : 1
-    //                 },
-    //                 onMouseDown: () => {
-    //                     console.log("on item click", item);
-    //                 }
-    //             })}
-    //         >
-    //             {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : null}
-    //
-    //             <div
-    //                 style={{
-    //                     height: itemContext.dimensions.height,
-    //                     overflow: "hidden",
-    //                     paddingLeft: 3,
-    //                     textOverflow: "ellipsis",
-    //                     whiteSpace: "nowrap"
-    //                 }}
-    //             >
-    //                 {itemContext.title}
-    //             </div>
-    //
-    //             {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : null}
-    //         </div>
-    //     );
-    // };
 
     render() {
         return (<Box sx={{width: '40vw',margin:'auto'}}>

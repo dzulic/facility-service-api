@@ -24,7 +24,12 @@ class CalendarService(
     fun getReservedRoomsForTypeAndTime(
         roomType: String, selectedTimeStart: OffsetDateTime
     ): List<AgendaEntryDTO> {
-        val rooms = roomServiceWebClient.getRequest("/rooms/{roomType}", roomType, List::class.java)
+        val rooms = roomServiceWebClient.getRequest(
+            jwtTokenUtil.getCurrentUserToken()!!,
+            "/rooms/{roomType}",
+            roomType,
+            List::class.java
+        )
 
         return if (rooms != null && rooms.isNotEmpty()) {
             agendaEntryRepository.findAllByRoomIdInAndTimeStartBetween(
@@ -36,7 +41,7 @@ class CalendarService(
     }
 
     fun getRoomsReservedByCurrentUser() =
-        agendaEntryRepository.findAllByReservedByUser(jwtTokenUtil.getCurrentUser()).map { it.toAgendaEntryDTO() }
+        agendaEntryRepository.findAllByReservedByUserOrderByTimeStart(jwtTokenUtil.getCurrentUser()).map { it.toAgendaEntryDTO() }
 
 
     fun makeReservation(calendarDTO: CalendarDTO) {
@@ -90,15 +95,6 @@ data class AgendaEntryDTO(
     val timeEnd: OffsetDateTime,
     val usePurposeDescription: String?,
     val reservedByTheUser: String
-)
-
-data class RoomDTO(
-    val id: UUID,
-    val roomId: String,
-    val roomType: String,
-    val sittingPlaces: Int,
-    val computerPlaces: Int,
-    val universityId: UUID
 )
 
 data class SendEmailDTO(

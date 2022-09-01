@@ -1,7 +1,8 @@
 import React from "react";
 import {useAuth0, withAuthenticationRequired} from "@auth0/auth0-react";
 import Loading from "../../base/Loading";
-import {Avatar} from "@mui/material";
+import {Avatar, Typography} from "@mui/material";
+import moment from "moment";
 
 const ProfileForm = () => {
     const {user, isAuthenticated, isLoading} = useAuth0();
@@ -15,16 +16,10 @@ const ProfileForm = () => {
             <div>
                 <Avatar sx={{margin: 'auto', height: '70px', width: '70px'}} alt={user.name}
                         src={user.picture}/>
-                <h3>{user.given_name}</h3>
-                <p>{user.email}</p>
-                <p>{user.given_name}</p>
-                <p>{user.family_name}</p>
-                <p>{user.middle_name}</p>
-                <p>{user.nickname}</p>
-                <p>{user.profile}</p>
-                <p>{user.email_verified}</p>
-                <p>{user.phone_number}</p>
-                <p>{user.updated_at}</p>
+                <Typography variant='h5'>{user.given_name} {user.family_name}</Typography>
+                <Typography variant='h5'>{user.phone_number}</Typography>
+                <Typography variant='p'>Last updated
+                    at:{moment(user.updated_at).format("YYYY-MM-DD HH:mm:ss")}</Typography>
             </div>
         )
     );

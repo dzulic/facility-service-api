@@ -54,6 +54,11 @@ class CalendarController(private val calendarService: CalendarService) {
         return ResponseEntity(HttpStatus.OK)
     }
 
+    @GetMapping("/reservations/current")
+    fun getReservations(): ResponseEntity<List<AgendaEntryDTO>> {
+        return ResponseEntity<List<AgendaEntryDTO>>(calendarService.getRoomsReservedByCurrentUser(), HttpStatus.OK)
+    }
+
     @PatchMapping("/reservations/{id}")
     fun editReservation(@PathVariable id: UUID): ResponseEntity<String?>? {
         calendarService.editReservation(id)

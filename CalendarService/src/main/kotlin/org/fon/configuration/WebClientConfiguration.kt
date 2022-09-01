@@ -13,8 +13,7 @@ class WebClientConfiguration(
     @Value("\${services.room-services.url}")
     private val roomServiceUrl: String,
     @Value("\${services.notification-services.url}")
-    private val notificationServiceUrl: String,
-    private val jwtTokenUtil: JwtTokenUtil
+    private val notificationServiceUrl: String
 ) {
 
     @Bean
@@ -26,14 +25,16 @@ class WebClientConfiguration(
     private fun WebClient.Builder.custom(serviceUrl: String): WebClient.Builder {
         return this.baseUrl(serviceUrl)
             .clientConnector(ReactorClientHttpConnector(HttpClient.create()))
-            .defaultHeader("Authorization", jwtTokenUtil.getCurrentUserToken())
-            .clientConnector(ReactorClientHttpConnector(HttpClient.create()))
     }
 
 }
 
-fun <T> WebClient.getRequest(path: String, variables: Any, responseClazz: Class<T>) =
-    this.get().uri { uriBuilder ->
-        uriBuilder.path(path)
-            .build(variables)
-    }.retrieve().bodyToMono(responseClazz).block()
+fun <T : Any> WebClient.getRequest(token: String, path: String, variables: Any, responseClazz: Class<T>): T? {
+    return this.get()
+        .uri { uriBuilder ->
+            uriBuilder.path(path)
+                .build(variables)
+        }.headers { headers -> headers.setBearerAuth(token) }
+        .retrieve()
+        .bodyToMono(responseClazz).block()
+}

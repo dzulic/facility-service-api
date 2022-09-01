@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS agenda_entry
     time_start              timestamptz,
     time_end                timestamptz,
     use_purpose_description VARCHAR(255),
-    reserved_by_user        UUID,
+    reserved_by_user        VARCHAR(50),
     CONSTRAINT pk_agenda_entry PRIMARY KEY (id)
 );
 

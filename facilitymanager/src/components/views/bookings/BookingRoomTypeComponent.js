@@ -47,7 +47,7 @@ class BookingRoomTypeComponent extends Component {
 
     render() {
         return (
-            <Box sx={{padding: 5}}>
+            <>
                 <Field
                     name="favoriteColor"
                     component={renderSelectField}
@@ -55,7 +55,7 @@ class BookingRoomTypeComponent extends Component {
                     other={this.handleChange}
                 >
                 </Field>
-            </Box>
+            </>
         )
     }
 }

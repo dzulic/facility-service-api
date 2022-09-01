@@ -1,6 +1,6 @@
 import {call, put} from "redux-saga/effects";
 import {handleApiFetchGET, handleApiFetchPOST} from "../../api/Api";
-import {AGENDA_ENTRIES} from "../../utils/Utils";
+import {AGENDA_ENTRIES, CURRENT_USER_ENTRIES} from "../../utils/Utils";
 import {ActionTypes} from "../actions";
 
 export const REST_ROOT_ENDPOINT = "http://localhost:8081/calendars";
@@ -39,21 +39,42 @@ export function* getAvailableRoomsForTimeAndType(action) {
     const accessToken = yield call(action.property.accessToken)
 
     try {
-        const response = yield call(() => new Promise((resolve) => {
-            handleApiFetchGET(
-                `${REST_ROOT_ENDPOINT}/availability?${new URLSearchParams({
-                    selectedTimeStart: action.property.selectedDate,
-                    roomType: action.property.roomType
-                })}`, accessToken
-            ).then((_result) => {
-                resolve(_result);
-            });
-        }))
-
+        const response = yield call(
+            handleApiFetchGET, `${REST_ROOT_ENDPOINT}/availability?${new URLSearchParams({
+                selectedTimeStart: action.property.selectedDate,
+                roomType: action.property.roomType
+            })}`, accessToken
+        )
+        console.log("RESP")
         if (response) {
             yield put({
                 type: ActionTypes.ADD_EDIT_APP_PROP_STORE, property: {
                     key: AGENDA_ENTRIES, value: response
+                }
+            });
+            //TODO REMOVE HISTORY
+            // yield call(history.push, "/rooms");
+        }
+
+    } catch
+        (e) {
+        console.log(e)
+        //TODO SHOW_ERROR_MODAL
+        yield put({
+            type: 'SHOW_ERROR_MODAL'
+        });
+    }
+}
+
+export function* getCurrentUserBookings(action) {
+    const accessToken = yield call(action.property.accessToken)
+    try {
+        const response = yield call(handleApiFetchGET, `${REST_ROOT_ENDPOINT}/reservations/current`, accessToken)
+
+        if (response) {
+            yield put({
+                type: ActionTypes.ADD_EDIT_APP_PROP_STORE, property: {
+                    key: CURRENT_USER_ENTRIES, value: response
                 }
             });
             //TODO REMOVE HISTORY

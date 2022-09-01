@@ -13,21 +13,27 @@ class WebClientConfiguration(
     @Value("\${services.room-services.url}")
     private val roomServiceUrl: String,
     @Value("\${services.notification-services.url}")
-    private val notificationServiceUrl: String
+    private val notificationServiceUrl: String,
+    private val jwtTokenUtil: JwtTokenUtil
 ) {
-    @Bean
-    fun roomServiceWebClient(): WebClient {
-        return WebClient.builder()
-            .baseUrl(roomServiceUrl)
-            .clientConnector(ReactorClientHttpConnector(HttpClient.create()))
-            .build()
-    }
 
     @Bean
-    fun notificationWebClient(): WebClient {
-        return WebClient.builder()
-            .baseUrl(notificationServiceUrl)
+    fun roomServiceWebClient(): WebClient = WebClient.builder().custom(roomServiceUrl).build()
+
+    @Bean
+    fun notificationWebClient(): WebClient = WebClient.builder().custom(notificationServiceUrl).build()
+
+    private fun WebClient.Builder.custom(serviceUrl: String): WebClient.Builder {
+        return this.baseUrl(serviceUrl)
             .clientConnector(ReactorClientHttpConnector(HttpClient.create()))
-            .build()
+            .defaultHeader("Authorization", jwtTokenUtil.getCurrentUserToken())
+            .clientConnector(ReactorClientHttpConnector(HttpClient.create()))
     }
+
 }
+
+fun <T> WebClient.getRequest(path: String, variables: Any, responseClazz: Class<T>) =
+    this.get().uri { uriBuilder ->
+        uriBuilder.path(path)
+            .build(variables)
+    }.retrieve().bodyToMono(responseClazz).block()

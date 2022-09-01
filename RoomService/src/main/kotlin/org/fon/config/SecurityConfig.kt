@@ -33,7 +33,7 @@ class SecurityConfig {
         an OAuth2 Resource Server, using JWT validation.
         */
         http.authorizeRequests()
-            .mvcMatchers("/").authenticated()
+            .anyRequest().authenticated()
             .and().cors()
             .and().oauth2ResourceServer().jwt()
         return http.build()

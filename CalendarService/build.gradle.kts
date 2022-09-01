@@ -42,16 +42,16 @@ val ktlint by configurations.creating
 
 dependencies {
     //SPRING & KOTLIN
+    implementation("org.springframework.boot:spring-boot-starter-web:2.7.0")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.2")
-    implementation("org.springframework.boot:spring-boot-starter-validation:2.7.3")
+    implementation("org.springframework.boot:spring-boot-starter-validation:2.7.0")
     implementation("org.springframework.retry:spring-retry:1.3.3")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-webflux:2.7.3")
     implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.0-rc2")
     implementation("javax.xml.bind:jaxb-api:2.3.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
-    implementation("org.springframework.boot:spring-boot-starter-web:2.7.3")
-    implementation("org.springframework.boot:spring-boot-starter-webflux:2.7.3")
-
     //SECURITY
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:2.4.1")
 

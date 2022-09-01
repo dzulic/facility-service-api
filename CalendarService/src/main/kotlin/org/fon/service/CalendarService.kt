@@ -1,5 +1,7 @@
 package org.fon.service
 
+import org.fon.configuration.JwtTokenUtil
+import org.fon.configuration.getRequest
 import org.fon.controller.CalendarDTO
 import org.fon.dao.AgendaEntryEntity
 import org.fon.dao.AgendaEntryRepository
@@ -12,7 +14,8 @@ import java.util.UUID
 class CalendarService(
     private val agendaEntryRepository: AgendaEntryRepository,
     private val roomServiceWebClient: WebClient,
-    private val notificationWebClient: WebClient
+    private val notificationWebClient: WebClient,
+    private val jwtTokenUtil: JwtTokenUtil
 ) {
     /**
      * To show calendars of the rooms with reserved slots
@@ -21,10 +24,7 @@ class CalendarService(
     fun getReservedRoomsForTypeAndTime(
         roomType: String, selectedTimeStart: OffsetDateTime
     ): List<AgendaEntryDTO> {
-        val rooms = roomServiceWebClient.get().uri { uriBuilder ->
-            uriBuilder.path("/rooms/{roomType}")
-                .build(roomType)
-        }.retrieve().bodyToMono(List::class.java).block()
+        val rooms = roomServiceWebClient.getRequest("/rooms/{roomType}", roomType, List::class.java)
 
         return if (rooms != null && rooms.isNotEmpty()) {
             agendaEntryRepository.findAllByRoomIdInAndTimeStartBetween(
@@ -35,19 +35,16 @@ class CalendarService(
         } else listOf()
     }
 
-    fun getRoomsReservedByCurrentUser() {
-        val currentUser = UUID.randomUUID()
-        agendaEntryRepository.findAllByReservedByUser(currentUser)
-    }
+    fun getRoomsReservedByCurrentUser() =
+        agendaEntryRepository.findAllByReservedByUser(jwtTokenUtil.getCurrentUser()).map { it.toAgendaEntryDTO() }
+
 
     fun makeReservation(calendarDTO: CalendarDTO) {
-        val currentUser = UUID.randomUUID()
-
         runCatching {
             agendaEntryRepository.save(
                 AgendaEntryEntity(
                     roomId = calendarDTO.roomId,
-                    reservedByUser = currentUser,
+                    reservedByUser = jwtTokenUtil.getCurrentUser(),
                     usePurposeDescription = calendarDTO.description,
                     timeStart = calendarDTO.selectedTimeStart,
                     timeEnd = calendarDTO.selectedTimeEnd,
@@ -56,6 +53,7 @@ class CalendarService(
         }.onSuccess {
             notificationWebClient.post()
                 .uri("/emails}")
+                .header("Authorization", "")
                 .body(
                     SendEmailDTO(
                         "+31687004333",
@@ -72,7 +70,7 @@ class CalendarService(
     }
 
     fun editReservation(reservationId: UUID) {
-        val reservation = agendaEntryRepository.getById(reservationId)
+        val reservation = agendaEntryRepository.getReferenceById(reservationId)
         agendaEntryRepository.save(reservation);
     }
 
@@ -91,7 +89,7 @@ data class AgendaEntryDTO(
     val timeStart: OffsetDateTime,
     val timeEnd: OffsetDateTime,
     val usePurposeDescription: String?,
-    val reservedByTheUser: UUID
+    val reservedByTheUser: String
 )
 
 data class RoomDTO(

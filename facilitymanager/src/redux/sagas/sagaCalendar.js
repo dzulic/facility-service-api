@@ -44,8 +44,7 @@ export function* getAvailableRoomsForTimeAndType(action) {
                 `${REST_ROOT_ENDPOINT}/availability?${new URLSearchParams({
                     selectedTimeStart: action.property.selectedDate,
                     roomType: action.property.roomType
-                })}`,
-                accessToken
+                })}`, accessToken
             ).then((_result) => {
                 resolve(_result);
             });

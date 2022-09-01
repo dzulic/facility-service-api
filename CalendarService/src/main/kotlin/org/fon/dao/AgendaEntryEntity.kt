@@ -26,7 +26,7 @@ data class AgendaEntryEntity(
     val timeStart: OffsetDateTime,
     val timeEnd: OffsetDateTime,
     val usePurposeDescription: String?,
-    val reservedByUser: UUID,
+    val reservedByUser: String,
 ) : Auditable()
 
 
@@ -41,6 +41,6 @@ interface AgendaEntryRepository : JpaRepository<AgendaEntryEntity, UUID> {
         roomIds: List<UUID>
     ): List<AgendaEntryEntity>
 
-    fun findAllByReservedByUser(userId: UUID): List<AgendaEntryEntity>
+    fun findAllByReservedByUser(userId: String): List<AgendaEntryEntity>
 
 }

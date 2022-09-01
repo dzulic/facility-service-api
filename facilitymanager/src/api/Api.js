@@ -11,7 +11,9 @@ export const handleApiFetchPOST =
 
 export const handleApiFetch =
     (restEndpoint, body, bearerToken, method) => {
-        myHeaders.append("Authorization", `Bearer ${bearerToken}`)
+        if (!myHeaders.has("Authorization")) {
+            myHeaders.append("Authorization", `Bearer ${bearerToken}`)
+        }
         return fetch(restEndpoint, {
             method: method, // *GET, POST, PUT, DELETE, etc.
             headers: myHeaders,

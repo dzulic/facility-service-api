@@ -10,8 +10,7 @@ class ModalDialog extends React.Component {
         super(props);
     }
 
-    onClose = e => {
-        console.log("ON CLOSE")
+    onClose() {
         const {dispatch} = this.props;
         dispatch({
             type: ActionTypes.CLOSE_MODAL,

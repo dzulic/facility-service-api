@@ -3,7 +3,7 @@ import BookingDatePicker from './BookingDatePickerComponent';
 import Box from '@mui/material/Box';
 import BookingRoomType from "./BookingRoomTypeComponent";
 import {connect} from "react-redux";
-import {Field, reduxForm} from "redux-form";
+import {Field, getFormValues, reduxForm} from "redux-form";
 import {
     AGENDA_ENTRIES,
     AVAILABLE_ROOMS,
@@ -36,87 +36,92 @@ class BookRoomForm extends Component {
 
     onSubmit = () => {
         const {getAccessTokenSilently} = this.props.auth0;
-        const {dispatch, selectedDate, selectedTime, roomType} = this.props;
+        const {dispatch, selectedDate, roomType, formValues} = this.props;
         dispatch({
             type: ActionTypes.GET_ROOMS_AVAILABILITY,
             property: {
                 roomType: roomType,
                 selectedDate: selectedDate,
-                selectedTime: selectedTime,
+                computerPlacesMin: (formValues != null) ? formValues.computerPlaces : 0,
+                sittingPlacesMin: (formValues != null) ? formValues.sittingPlaces : 0,
                 accessToken: getAccessTokenSilently
             }
         });
-
     }
-
 
     render() {
         return (
-            <form><Box
-                sx={{
-                    padding: '20px',
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(2, 1fr)',
-                    gridTemplateAreas: `"selectRoomType selectRoomType"
+            <> <ModalDialog/>
+                <form>
+                    <Box
+                        sx={{
+                            padding: '20px',
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(2, 1fr)',
+                            gridTemplateAreas: ` "title title"
+                    "selectRoomType selectRoomType"
                     "selectDay selectDay"
                     "selectRoom1 selectRoom2"
                     "button button"
                     "timeline timeline"`,
-                    gap: 1,
-                    gridTemplateRows: 'auto'
-
-                }}>
-
-                <ModalDialog/>
-                <Box sx={{gridArea: 'selectRoomType', width: '100%'}}>
-                    <BookingRoomType></BookingRoomType>
-                </Box>
-                <Box sx={{gridArea: 'selectDay', width: '100%'}}>
-                    <BookingDatePicker/>
-                </Box>
-                <Box sx={{gridArea: 'selectRoom1'}}>
-                    <Typography component="h5">Computer Places Min:</Typography>
-                    <Field
-                        name="computerPlaces"
-                        component={renderTextField}
-                        label="Number of computer places"
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="computerPlaces"
-                        autoFocus
-                    /></Box>
-                <Box sx={{gridArea: 'selectRoom2'}}>
-                    <Typography component="h5">Sitting Places Min:</Typography>
-                    <Field
-                        name="sittingPlaces"
-                        component={renderTextField}
-                        label="Number of sitting places"
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="sittingPlaces"
-                        autoFocus
-                    />
-                </Box>
-
-                {(this.props.roomType !== undefined && this.props.roomType != null && this.props.selectedDate != null) &&
-                    <Box sx={{gridArea: 'button'}}>
-                        <Button variant="contained" onClick={this.onSubmit}>Find rooms</Button>
-                    </Box>
-                }
-                {this.props.agendaEntries &&
-                    <Box
-                        sx={{
-                            gridArea: "timeline",
-                            marginTop: '50px',
-                            marginBottom: '50px'
+                            gap: 1,
+                            gridTemplateRows: 'auto'
                         }}>
-                        <AgendaBooking></AgendaBooking>
-                    </Box>
-                }
-            </Box></form>
+                        <Box sx={{gridArea: 'title', padding: '20px'}}>
+                            <Typography variant="h5" component="h5">Please fill in all the search criteria</Typography>
+                        </Box>
+                        <Box sx={{gridArea: 'selectRoomType'}}>
+                            <BookingRoomType></BookingRoomType>
+                        </Box>
+                        <Box sx={{gridArea: 'selectDay'}}>
+                            <BookingDatePicker/>
+                        </Box>
+                        <Box sx={{gridArea: 'selectRoom1'}}>
+                            <Typography>Computer Places Min:</Typography>
+                            <Field
+                                name="computerPlaces"
+                                component={renderTextField}
+                                label="Number of computer places"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                type={"number"}
+                                id="computerPlaces"
+                                autoFocus
+                            /></Box>
+                        <Box sx={{gridArea: 'selectRoom2'}}>
+                            <Typography>Sitting Places Min:</Typography>
+                            <Field
+                                name="sittingPlaces"
+                                component={renderTextField}
+                                label="Number of sitting places"
+                                variant="outlined"
+                                type={"number"}
+                                required
+                                fullWidth
+                                id="sittingPlaces"
+                                autoFocus
+                            />
+                        </Box>
 
+                        {(this.props.roomType !== undefined && this.props.roomType != null && this.props.selectedDate != null) &&
+                            <Box sx={{gridArea: 'button'}}>
+                                <Button variant="contained" onClick={this.onSubmit}>Find rooms</Button>
+                            </Box>
+                        }
+                        {this.props.agendaEntries &&
+                            <Box
+                                sx={{
+                                    gridArea: "timeline",
+                                    marginTop: '50px',
+                                    marginBottom: '50px'
+                                }}>
+                                <AgendaBooking></AgendaBooking>
+                            </Box>
+                        }
+                    </Box>
+                </form>
+            </>
         );
     }
 }
@@ -128,7 +133,8 @@ function mapStateToProps(state) {
         selectedDate: getValueAppPropertyStore(state, SELECTED_DATE),
         selectedTime: getValueAppPropertyStore(state, SELECTED_TIME),
         availableRooms: getValueAppPropertyStore(state, AVAILABLE_ROOMS),
-        agendaEntries: getValueAppPropertyStore(state, AGENDA_ENTRIES)
+        agendaEntries: getValueAppPropertyStore(state, AGENDA_ENTRIES),
+        formValues: getFormValues("app")(state)
     }
 }
 

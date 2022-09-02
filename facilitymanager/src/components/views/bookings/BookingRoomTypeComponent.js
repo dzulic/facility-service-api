@@ -1,4 +1,4 @@
-import {Box, FormControl, Input, InputLabel, MenuItem, Select} from "@mui/material";
+import {FormControl, Input, InputLabel, MenuItem, Select} from "@mui/material";
 import React, {Component} from "react";
 import {ActionTypes} from '../../../redux/actions';
 import {connect} from "react-redux";
@@ -19,7 +19,7 @@ const renderSelectField = ({
                                ...custom
                            }) => (
     <FormControl fullWidth={true}>
-        <InputLabel id="demo-simple-select-label">Please select the type of the room</InputLabel>
+        <InputLabel id="demo-simple-select-label">Select the type of the room</InputLabel>
         <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"

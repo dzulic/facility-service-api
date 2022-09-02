@@ -26,5 +26,9 @@ data class RoomEntity(
 )
 
 interface RoomRepository : JpaRepository<RoomEntity, UUID> {
-    fun findAllByRoomType(roomType: String): List<RoomEntity>
+    fun findAllByRoomTypeAndComputerPlacesGreaterThanEqualAndSittingPlacesGreaterThanEqual(
+        roomType: String,
+        computerPlaces: Int,
+        sittingPlaces: Int
+    ): List<RoomEntity>
 }

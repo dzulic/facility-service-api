@@ -8,7 +8,6 @@ plugins {
     id("jacoco")
     id("org.jetbrains.kotlin.plugin.jpa") version ("1.6.10")
     id("io.spring.dependency-management")
-
 }
 
 application {

@@ -2,10 +2,14 @@ package org.fon.service
 
 import org.fon.configuration.JwtTokenUtil
 import org.fon.configuration.getRequest
+import org.fon.configuration.postRequest
 import org.fon.controller.CalendarDTO
 import org.fon.dao.AgendaEntryEntity
 import org.fon.dao.AgendaEntryRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import org.springframework.util.MultiValueMap
+import org.springframework.util.MultiValueMapAdapter
 import org.springframework.web.reactive.function.client.WebClient
 import java.time.OffsetDateTime
 import java.util.UUID
@@ -15,20 +19,28 @@ class CalendarService(
     private val agendaEntryRepository: AgendaEntryRepository,
     private val roomServiceWebClient: WebClient,
     private val notificationWebClient: WebClient,
-    private val jwtTokenUtil: JwtTokenUtil
+    private val jwtTokenUtil: JwtTokenUtil,
+    @Value("\${services.notification-services.enabled}")
+    private val sendNotifications: Boolean,
 ) {
     /**
      * To show calendars of the rooms with reserved slots
      * so the user can select the free slots
      */
     fun getReservedRoomsForTypeAndTime(
-        roomType: String, selectedTimeStart: OffsetDateTime
+        roomType: String, selectedTimeStart: OffsetDateTime, computerPlacesMin: Int? = 0, sittingPlacesMin: Int? = 0
     ): List<AgendaEntryDTO> {
         val rooms = roomServiceWebClient.getRequest(
-            jwtTokenUtil.getCurrentUserToken()!!,
-            "/rooms/{roomType}",
-            roomType,
-            List::class.java
+            token = jwtTokenUtil.getCurrentUserToken()!!,
+            path = "/rooms/{roomType}",
+            variables = roomType,
+            queryParams = MultiValueMapAdapter(
+                mapOf(
+                    "computerPlacesMin" to listOf(computerPlacesMin.toString()),
+                    "sittingPlacesMin" to listOf(sittingPlacesMin.toString())
+                )
+            ),
+            responseClazz = List::class.java
         )
 
         return if (rooms != null && rooms.isNotEmpty()) {
@@ -41,7 +53,8 @@ class CalendarService(
     }
 
     fun getRoomsReservedByCurrentUser() =
-        agendaEntryRepository.findAllByReservedByUserOrderByTimeStart(jwtTokenUtil.getCurrentUser()).map { it.toAgendaEntryDTO() }
+        agendaEntryRepository.findAllByReservedByUserOrderByTimeStart(jwtTokenUtil.getCurrentUser())
+            .map { it.toAgendaEntryDTO() }
 
 
     fun makeReservation(calendarDTO: CalendarDTO) {
@@ -56,10 +69,9 @@ class CalendarService(
                 )
             )
         }.onSuccess {
-            notificationWebClient.post()
-                .uri("/emails}")
-                .header("Authorization", "")
-                .body(
+            if (sendNotifications) {
+                notificationWebClient.postRequest(
+                    jwtTokenUtil.getCurrentUserToken()!!, "/emails",
                     SendEmailDTO(
                         "+31687004333",
                         "You have made the reservation for the room id ${it.roomId} " +
@@ -68,9 +80,16 @@ class CalendarService(
                     ),
                     SendEmailDTO::class.java
                 )
-                .retrieve()
-                .toBodilessEntity()
-                .block()
+                notificationWebClient.postRequest(
+                    jwtTokenUtil.getCurrentUserToken()!!, "/sms",
+                    SendSMSDTO(
+                        //TODO switch to phone
+                        receiver = jwtTokenUtil.getCurrentUser(),
+                        message = "Your room has been reserved",
+                        senderId = "BookARoom"
+                    ), SendSMSDTO::class.java
+                )
+            }
         }
     }
 
@@ -80,7 +99,21 @@ class CalendarService(
     }
 
     fun removeReservation(id: UUID) {
-        agendaEntryRepository.deleteById(id)
+        kotlin.runCatching { agendaEntryRepository.deleteById(id) }
+            .onSuccess {
+                if (sendNotifications) {
+                    notificationWebClient.postRequest(
+                        jwtTokenUtil.getCurrentUserToken()!!, "/emails",
+                        SendEmailDTO(
+                            //TODO change to email
+                            jwtTokenUtil.getCurrentUser(),
+                            "Your reservation has been canceled",
+                            "Your reservation has been canceled"
+                        ),
+                        SendEmailDTO::class.java
+                    )
+                }
+            }
     }
 
 }
@@ -101,4 +134,10 @@ data class SendEmailDTO(
     val to: String,
     val subject: String,
     val textTemplate: String
+)
+
+data class SendSMSDTO(
+    var receiver: String,
+    var message: String,
+    var senderId: String
 )

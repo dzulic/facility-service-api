@@ -1,12 +1,11 @@
 import React, {Component} from "react";
-import {Grid, Typography} from "@mui/material";
-import Container from "@mui/material/Container";
-import {Button} from "reactstrap";
+import {Button, Grid, Typography} from "@mui/material";
 import {Field, getFormValues, reduxForm} from "redux-form";
 import {connect} from "react-redux";
 import {renderTextField} from "../../base/MuiTextFieldRendering";
 import {withAuth0} from "@auth0/auth0-react";
 import {ActionTypes} from "../../../redux/actions";
+import PageLayoutComponent from "../../base/PageLayoutComponent";
 
 class UpdateUserModal extends Component {
 
@@ -22,21 +21,23 @@ class UpdateUserModal extends Component {
 
     render() {
         return (
-            <Container aria-expanded={"true"} sx={{width: '100vw'}}>
+            <PageLayoutComponent>
                 <form className="form" style={{
-                    'max-width': '330px',
-                    'margin': '0 auto',
+                    'maxWidth': '330px',
+                    'margin': '200px auto',
                     display: 'flex',
-                    'flex-direction': 'column',
+                    'flexDirection': 'column',
                     'background': 'white',
-                    'padding': '20px',
                     'marginTop': '30px'
                 }} onSubmit={this.handleSubmit}>
-                    <Typography component="h1" variant="h5">
-                        Sign up
+                    <Typography component="h1" variant="h5" sx={{'padding': '20px'}}>
+                        Please input more details
                     </Typography>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={6} sx={{'padding': '20px'}}>
+                            <Typography component="p" variant="p">
+                                Given name
+                            </Typography>
                             <Field
                                 component={renderTextField}
                                 autoComplete="fname"
@@ -49,7 +50,10 @@ class UpdateUserModal extends Component {
                                 autoFocus
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={6} sx={{'padding': '20px'}}>
+                            <Typography component="p" variant="p">
+                                Family name
+                            </Typography>
                             <Field
                                 component={renderTextField}
                                 variant="outlined"
@@ -61,18 +65,10 @@ class UpdateUserModal extends Component {
                                 autoComplete="lname"
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <Field
-                                component={renderTextField}
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="nickname"
-                                label="Nickname"
-                                name="nickname"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} sx={{'padding': '20px'}}>
+                            <Typography component="p" variant="p">
+                                Phone number
+                            </Typography>
                             <Field
                                 component={renderTextField}
                                 variant="outlined"
@@ -86,15 +82,10 @@ class UpdateUserModal extends Component {
                         </Grid>
                     </Grid>
                     <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                    >
-                        Sign Up
+                        type="submit"> SUBMIT
                     </Button>
                 </form>
-            </Container>
+            </PageLayoutComponent>
         );
     }
 }

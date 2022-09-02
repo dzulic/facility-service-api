@@ -1,25 +1,12 @@
 import React, {Component} from "react";
 import {Box} from "@mui/system";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography} from "@mui/material";
 import moment from "moment";
 import {connect} from "react-redux";
-import {Field, Form, getFormValues, reduxForm} from "redux-form";
+import {Field, getFormValues, reduxForm} from "redux-form";
 import {ActionTypes} from "../../../redux/actions";
 import {renderTextField} from "../../base/MuiTextFieldRendering";
-
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    background: 'white',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
+import {withAuth0} from "@auth0/auth0-react";
 
 const formatDate = (date, time) => {
     return new Date(`${moment(date).format("yyyy-MM-DD")}T${time}:00.000+02:00`).toISOString()
@@ -36,26 +23,28 @@ class AddBookingModal extends Component {
     }
 
     submitBookRoom = event => {
-        event.preventDefault();
-        const {dispatch, property, formValues} = this.props
+        const {dispatch, property, formValues, auth0} = this.props
         dispatch({
-            type: ActionTypes.SUBMIT_SCHEDULE_ROOM, property: {
+            type: ActionTypes.SUBMIT_SCHEDULE_ROOM,
+            property: {
                 roomId: property.groupId,
                 description: formValues.description,
                 selectedTimeStart: formatDate(property.time, formValues.selectedTimeStart),
-                selectedTimeEnd: formatDate(property.time, formValues.selectedTimeEnd)
+                selectedTimeEnd: formatDate(property.time, formValues.selectedTimeEnd),
+                accessToken: auth0.getAccessTokenSilently
             }
         })
+        dispatch({
+            type: ActionTypes.CLOSE_MODAL,
+            property: true
+        });
     }
 
     render() {
-        return (<Form>
-            <Box sx={{width: '100vw'}}>
-                <Button variant="outlined" onClick={this.props.closeMethod}>
-                    Open form dialog
-                </Button>
+        return (<form>
+            <Box>
                 <Dialog open={true} onClose={this.props.closeMethod}>
-                    <DialogTitle>Subscribe</DialogTitle>
+                    <DialogTitle>You can now book a room</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             To subscribe to this website, please enter your email address here. We
@@ -71,6 +60,7 @@ class AddBookingModal extends Component {
                             gridTemplateRows: 'auto',
                             gridTemplateAreas: `"text-field text-field"`
                         }}>
+                            <Typography>Select Time Start</Typography>
                             <Field
                                 name="selectedTimeStart"
                                 component={renderTextField}
@@ -82,6 +72,7 @@ class AddBookingModal extends Component {
                                 fullWidth
                                 variant="standard"
                             />
+                            <Typography>Select Time End</Typography>
                             <Field
                                 name="selectedTimeEnd"
                                 component={renderTextField}
@@ -94,6 +85,7 @@ class AddBookingModal extends Component {
                                 variant="standard"
                             />
                         </Box>
+                        <Typography>What is the purpose of the booking</Typography>
                         <Field
                             name="description"
                             component={renderTextField}
@@ -112,7 +104,7 @@ class AddBookingModal extends Component {
                     </DialogActions>
                 </Dialog>
             </Box>
-        </Form>);
+        </form>);
     }
 
 }
@@ -123,6 +115,6 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(reduxForm({
+export default withAuth0(connect(mapStateToProps)(reduxForm({
     form: formName
-})(AddBookingModal));
+})(AddBookingModal)));

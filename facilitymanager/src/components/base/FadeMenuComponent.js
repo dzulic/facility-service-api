@@ -6,7 +6,7 @@ import Fade from '@mui/material/Fade';
 import LogoutButton from "../views/auth/LogoutButton";
 
 export default function FadeMenu() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl, props] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -14,7 +14,6 @@ export default function FadeMenu() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
     return (
         <div>
             <Button
@@ -36,7 +35,6 @@ export default function FadeMenu() {
                 onClose={handleClose}
                 TransitionComponent={Fade}
             >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem><LogoutButton/></MenuItem>
             </Menu>
         </div>

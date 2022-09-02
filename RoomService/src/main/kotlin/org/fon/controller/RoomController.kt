@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
@@ -21,8 +22,15 @@ class RoomController(private val roomService: RoomService) {
     }
 
     @GetMapping("/{roomType}")
-    fun getAllRoomsByType(@PathVariable roomType: String): ResponseEntity<List<UUID>> {
-        return ResponseEntity<List<UUID>>(roomService.getRoomsByType(roomType), HttpStatus.OK)
+    fun getAllRoomsByCriteria(
+        @PathVariable roomType: String,
+        @RequestParam computerPlacesMin: Int?,
+        @RequestParam sittingPlacesMin: Int?
+    ): ResponseEntity<List<UUID>> {
+        return ResponseEntity<List<UUID>>(
+            roomService.getRoomsByType(roomType, computerPlacesMin, sittingPlacesMin),
+            HttpStatus.OK
+        )
     }
 }
 

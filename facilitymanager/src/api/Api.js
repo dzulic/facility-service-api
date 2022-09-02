@@ -1,8 +1,6 @@
 const myHeaders = new Headers();
 myHeaders.append("content-type", "application/json");
 myHeaders.append("accept", "application/json");
-myHeaders.append("Access-Control-Allow-Origin", "*")
-myHeaders.append("mode", "no-cors")
 
 export const handleApiFetchGET =
     (restEndpoint, bearerToken) => handleApiFetch(restEndpoint, null, bearerToken, 'GET')
@@ -21,6 +19,13 @@ export const handleApiFetch =
             headers: myHeaders,
             body: body
         })
-            .then(response => response.json())
-            .catch(error => console.log('error', error));
+            .then(response => {
+                    const contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        return response.json()
+                    } else {
+                        return response.text()
+                    }
+                }
+            ).catch(error => console.log('error', error));
     }

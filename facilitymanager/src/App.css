@@ -13,7 +13,7 @@ body {
     background-color: #f2f0e9;
     text-align: center;
     display: flex;
-    flex-direction: column;
+    flexDirection: column;
     align-items: center;
     justify-content: center;
     color:  #2196f3;

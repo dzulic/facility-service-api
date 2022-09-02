@@ -3,7 +3,9 @@ package org.fon.configuration
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.ResponseEntity
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
+import org.springframework.util.MultiValueMap
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
 
@@ -29,12 +31,32 @@ class WebClientConfiguration(
 
 }
 
-fun <T : Any> WebClient.getRequest(token: String, path: String, variables: Any, responseClazz: Class<T>): T? {
+fun <T : Any> WebClient.getRequest(
+    token: String,
+    path: String,
+    queryParams: MultiValueMap<String, String>,
+    variables: Any,
+    responseClazz: Class<T>
+): T? {
     return this.get()
         .uri { uriBuilder ->
-            uriBuilder.path(path)
+            uriBuilder.path(path).queryParams(queryParams)
                 .build(variables)
         }.headers { headers -> headers.setBearerAuth(token) }
         .retrieve()
         .bodyToMono(responseClazz).block()
+}
+
+fun <T : Any> WebClient.postRequest(
+    token: String,
+    path: String,
+    body: Any,
+    requestClazz: Class<T>
+): ResponseEntity<Void>? {
+    return this.post()
+        .uri(path)
+        .body(body, requestClazz)
+        .retrieve()
+        .toBodilessEntity()
+        .block()
 }

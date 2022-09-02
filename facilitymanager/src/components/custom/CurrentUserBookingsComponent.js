@@ -4,7 +4,7 @@ import {Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typogr
 import DeleteIcon from '@mui/icons-material/Delete';
 import CircleIcon from '@mui/icons-material/Circle';
 import {connect} from "react-redux";
-import {AVAILABLE_ROOMS, CURRENT_USER_ENTRIES, getValueAppPropertyStore, ROOM_TYPE} from "../../utils/Utils";
+import {AVAILABLE_ROOMS, CURRENT_USER_ENTRIES, getValueAppPropertyStore} from "../../utils/Utils";
 import moment from "moment";
 
 class CurrentUserBookingsComponent extends Component {

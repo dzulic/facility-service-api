@@ -37,6 +37,7 @@ services:
     url: 'http://localhost:8082'
   notification-services:
     url: 'http://localhost:8083'
+    enabled: false
 auth0:
   audience: https://bookaroom-fon.eu.auth0.com/api/v2/
 #logging:

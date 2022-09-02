@@ -3,6 +3,11 @@ server:
 spring:
   application:
     name: notification-service-api
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://bookaroom-fon.eu.auth0.com/
 features:
   sns:
     accessKey: AKIAVT6RKMRALECJI2PJ
@@ -14,3 +19,5 @@ features:
     secretKey: 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
     serviceEndpoint: https://email.eu-central-1.amazonaws.com
     region: eu-central-1
+auth0:
+  audience: https://bookaroom-fon.eu.auth0.com/api/v2/

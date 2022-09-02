@@ -57,7 +57,7 @@ class BookRoomAgendaForm extends Component {
         console.log('Clicked: ' + itemId, moment(time).format())
     }
 
-    handleCanvasClick = (groupId, time, event) => {
+    handleCanvasClick = (groupId, time) => {
         const {dispatch} = this.props
         dispatch({type: ActionTypes.SHOW_MODAL, property: {groupId: groupId, time: moment(time).format()}})
     }
@@ -94,7 +94,7 @@ class BookRoomAgendaForm extends Component {
                         }}
                         height={80} headerData={{someData: 'data'}} unit="day">
                         {({
-                              headerContext: {intervals}, getRootProps, getIntervalProps, showPeriod, data,
+                              headerContext: {intervals}, getRootProps, getIntervalProps, showPeriod,
                           }) => {
                             return (<div {...getRootProps()}>
                                 {intervals.map(interval => {

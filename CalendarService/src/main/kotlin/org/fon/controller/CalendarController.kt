@@ -1,6 +1,5 @@
 package org.fon.controller
 
-import org.fon.dao.AgendaEntryEntity
 import org.fon.service.AgendaEntryDTO
 import org.fon.service.CalendarService
 import org.springframework.http.HttpStatus
@@ -35,10 +34,17 @@ class CalendarController(private val calendarService: CalendarService) {
         ) @org.springframework.format.annotation.DateTimeFormat(
             iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME
         )
-        selectedTimeStart: OffsetDateTime
+        selectedTimeStart: OffsetDateTime,
+        @RequestParam computerPlacesMin: Int?,
+        @RequestParam sittingPlacesMin: Int?
     ): ResponseEntity<List<AgendaEntryDTO>>? =
         ResponseEntity<List<AgendaEntryDTO>>(
-            calendarService.getReservedRoomsForTypeAndTime(roomType, selectedTimeStart),
+            calendarService.getReservedRoomsForTypeAndTime(
+                roomType,
+                selectedTimeStart,
+                computerPlacesMin,
+                sittingPlacesMin
+            ),
             HttpStatus.OK
         )
 

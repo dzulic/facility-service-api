@@ -7,8 +7,8 @@ export const REST_ROOT_ENDPOINT = "http://localhost:8081/calendars";
 
 
 export function* submitScheduleRoom(action) {
+    console.log("SUBMIT", action)
     const accessToken = yield call(action.property.accessToken)
-
     let body = {
         roomId: action.property.roomId,
         selectedTimeStart: action.property.selectedTimeStart,
@@ -17,7 +17,7 @@ export function* submitScheduleRoom(action) {
     }
 
     try {
-        const response = handleApiFetchPOST(REST_ROOT_ENDPOINT + "/reservations", body, accessToken)
+        const response = yield call(handleApiFetchPOST, REST_ROOT_ENDPOINT + "/reservations", body, accessToken)
 
         if (response.success === false) {
             throw new Error(response.message);
@@ -42,18 +42,17 @@ export function* getAvailableRoomsForTimeAndType(action) {
         const response = yield call(
             handleApiFetchGET, `${REST_ROOT_ENDPOINT}/availability?${new URLSearchParams({
                 selectedTimeStart: action.property.selectedDate,
-                roomType: action.property.roomType
+                roomType: action.property.roomType,
+                computerPlacesMin: action.property.computerPlacesMin || 0,
+                sittingPlacesMin: action.property.sittingPlacesMin || 0
             })}`, accessToken
         )
-        console.log("RESP")
         if (response) {
             yield put({
                 type: ActionTypes.ADD_EDIT_APP_PROP_STORE, property: {
                     key: AGENDA_ENTRIES, value: response
                 }
             });
-            //TODO REMOVE HISTORY
-            // yield call(history.push, "/rooms");
         }
 
     } catch

@@ -33,8 +33,6 @@ spring:
           use_structured_entries: false
           use_minimal_puts: false
 services:
-  room-services:
-    url: 'http://localhost:8082'
   notification-services:
     url: 'http://localhost:8083'
     enabled: false

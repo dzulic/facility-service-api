@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import {Field, getFormValues, reduxForm} from "redux-form";
 import {
     AGENDA_ENTRIES,
-    AVAILABLE_ROOMS,
+    ALL_ROOMS,
     getValueAppPropertyStore,
     ROOM_TYPE,
     SELECTED_DATE,
@@ -38,7 +38,7 @@ class BookRoomForm extends Component {
         const {getAccessTokenSilently} = this.props.auth0;
         const {dispatch, selectedDate, roomType, formValues} = this.props;
         dispatch({
-            type: ActionTypes.GET_ROOMS_AVAILABILITY,
+            type: ActionTypes.GET_ROOMS_AND_AGENDAS,
             property: {
                 roomType: roomType,
                 selectedDate: selectedDate,
@@ -46,7 +46,7 @@ class BookRoomForm extends Component {
                 sittingPlacesMin: (formValues != null) ? formValues.sittingPlaces : 0,
                 accessToken: getAccessTokenSilently
             }
-        });
+        })
     }
 
     render() {
@@ -132,7 +132,7 @@ function mapStateToProps(state) {
         roomType: getValueAppPropertyStore(state, ROOM_TYPE),
         selectedDate: getValueAppPropertyStore(state, SELECTED_DATE),
         selectedTime: getValueAppPropertyStore(state, SELECTED_TIME),
-        availableRooms: getValueAppPropertyStore(state, AVAILABLE_ROOMS),
+        availableRooms: getValueAppPropertyStore(state, ALL_ROOMS),
         agendaEntries: getValueAppPropertyStore(state, AGENDA_ENTRIES),
         formValues: getFormValues("app")(state)
     }

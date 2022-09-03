@@ -3,7 +3,7 @@ import moment from 'moment'
 import React, {Component} from "react";
 import Box from "@mui/material/Box";
 import {CustomHeader} from "react-calendar-timeline/lib/lib/headers/CustomHeader";
-import {AGENDA_ENTRIES, AVAILABLE_ROOMS, getValueAppPropertyStore, ROOM_TYPE} from "../../../utils/Utils";
+import {AGENDA_ENTRIES, ALL_ROOMS, AVAILABLE_ROOMS, getValueAppPropertyStore, ROOM_TYPE} from "../../../utils/Utils";
 import {connect} from "react-redux";
 import {reduxForm} from "redux-form";
 import TodayMarker from "react-calendar-timeline/lib/lib/markers/public/TodayMarker";
@@ -21,11 +21,12 @@ const defaultTimeEnd = defaultTime
 class BookRoomAgendaForm extends Component {
 
     createGroups = () => {
-        const {availableRooms, roomType} = this.props
+        const {allRooms, availableRooms, roomType} = this.props
         let groups = []
-        if (availableRooms !== null) {
-            groups =
-                availableRooms.filter(it => it.roomType === roomType).map((room) => {
+        if (allRooms !== null) {
+            groups = allRooms.filter(it => it.roomType === roomType)
+                .filter(all => availableRooms
+                    .includes(all.id)).map((room) => {
                     return {id: room.id, title: room.roomId, height: 80}
                 })
         }
@@ -36,8 +37,6 @@ class BookRoomAgendaForm extends Component {
     createItems = () => {
         const {agendaEntries} = this.props
         let items = []
-        console.log("ITEMS", agendaEntries)
-
         if (agendaEntries !== null) {
             items = agendaEntries.map((entry, index) => {
                 return {
@@ -63,7 +62,7 @@ class BookRoomAgendaForm extends Component {
     }
 
     render() {
-        return (<Box sx={{width: '40vw',margin:'auto'}}>
+        return (<Box sx={{width: '40vw', margin: 'auto'}}>
 
             <Timeline groups={this.createGroups()}
                       items={this.createItems()}
@@ -133,15 +132,14 @@ function mapStateToProps(state) {
     return {
         roomType: getValueAppPropertyStore(state, ROOM_TYPE),
         agendaEntries: getValueAppPropertyStore(state, AGENDA_ENTRIES),
-        availableRooms: getValueAppPropertyStore(state, AVAILABLE_ROOMS)
+        availableRooms: getValueAppPropertyStore(state, AVAILABLE_ROOMS),
+        allRooms: getValueAppPropertyStore(state, ALL_ROOMS)
     };
 }
 
 export default connect(mapStateToProps)(reduxForm({
-    form: "app",
-    // TO REMOVE
-    destroyOnUnmount: false,
-    enableReinitialize: false,
+    form: "app", // TO REMOVE
+    destroyOnUnmount: false, enableReinitialize: false,
 })(BookRoomAgendaForm))
 
 

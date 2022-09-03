@@ -1,15 +1,12 @@
 package org.fon.service
 
 import org.fon.configuration.JwtTokenUtil
-import org.fon.configuration.getRequest
 import org.fon.configuration.postRequest
 import org.fon.controller.CalendarDTO
 import org.fon.dao.AgendaEntryEntity
 import org.fon.dao.AgendaEntryRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import org.springframework.util.MultiValueMap
-import org.springframework.util.MultiValueMapAdapter
 import org.springframework.web.reactive.function.client.WebClient
 import java.time.OffsetDateTime
 import java.util.UUID
@@ -17,7 +14,6 @@ import java.util.UUID
 @Service
 class CalendarService(
     private val agendaEntryRepository: AgendaEntryRepository,
-    private val roomServiceWebClient: WebClient,
     private val notificationWebClient: WebClient,
     private val jwtTokenUtil: JwtTokenUtil,
     @Value("\${services.notification-services.enabled}")
@@ -28,25 +24,12 @@ class CalendarService(
      * so the user can select the free slots
      */
     fun getReservedRoomsForTypeAndTime(
-        roomType: String, selectedTimeStart: OffsetDateTime, computerPlacesMin: Int? = 0, sittingPlacesMin: Int? = 0
+        selectedTimeStart: OffsetDateTime, rooms: List<String>
     ): List<AgendaEntryDTO> {
-        val rooms = roomServiceWebClient.getRequest(
-            token = jwtTokenUtil.getCurrentUserToken()!!,
-            path = "/rooms/{roomType}",
-            variables = roomType,
-            queryParams = MultiValueMapAdapter(
-                mapOf(
-                    "computerPlacesMin" to listOf(computerPlacesMin.toString()),
-                    "sittingPlacesMin" to listOf(sittingPlacesMin.toString())
-                )
-            ),
-            responseClazz = List::class.java
-        )
-
-        return if (rooms != null && rooms.isNotEmpty()) {
+        return if (rooms.isNotEmpty()) {
             agendaEntryRepository.findAllByRoomIdInAndTimeStartBetween(
-                rooms.map { UUID.fromString(it as String) },
-                selectedTimeStart.minusDays(7),
+                rooms.map { UUID.fromString(it) },
+                selectedTimeStart.minusDays(1),
                 selectedTimeStart.plusDays(7)
             ).map { it.toAgendaEntryDTO() }
         } else listOf()

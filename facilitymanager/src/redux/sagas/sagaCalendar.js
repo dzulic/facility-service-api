@@ -35,16 +35,14 @@ export function* submitScheduleRoom(action) {
     }
 }
 
-export function* getAvailableRoomsForTimeAndType(action) {
+export function* getAgendasForTimeAndType(action) {
     const accessToken = yield call(action.property.accessToken)
-
+    console.log("GET A", action)
     try {
         const response = yield call(
             handleApiFetchGET, `${REST_ROOT_ENDPOINT}/availability?${new URLSearchParams({
                 selectedTimeStart: action.property.selectedDate,
-                roomType: action.property.roomType,
-                computerPlacesMin: action.property.computerPlacesMin || 0,
-                sittingPlacesMin: action.property.sittingPlacesMin || 0
+                roomsIds: action.property.roomIds
             })}`, accessToken
         )
         if (response) {

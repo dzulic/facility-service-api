@@ -27,24 +27,21 @@ class CalendarController(private val calendarService: CalendarService) {
      */
     @GetMapping("/availability")
     fun getAvailableRoomsForTimeAndType(
-        @RequestParam roomType: String,
         @RequestParam(
             value = "selectedTimeStart",
-            required = false
+            required = true
         ) @org.springframework.format.annotation.DateTimeFormat(
             iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME
         )
         selectedTimeStart: OffsetDateTime,
-        @RequestParam computerPlacesMin: Int?,
-        @RequestParam sittingPlacesMin: Int?
+        @RequestParam(
+            value = "roomsIds",
+            required = true
+        )
+        roomsIds: List<String>
     ): ResponseEntity<List<AgendaEntryDTO>>? =
         ResponseEntity<List<AgendaEntryDTO>>(
-            calendarService.getReservedRoomsForTypeAndTime(
-                roomType,
-                selectedTimeStart,
-                computerPlacesMin,
-                sittingPlacesMin
-            ),
+            calendarService.getReservedRoomsForTypeAndTime(selectedTimeStart, roomsIds),
             HttpStatus.OK
         )
 

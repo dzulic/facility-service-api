@@ -3,9 +3,8 @@ package org.fon.configuration
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.ResponseEntity
+import org.springframework.http.MediaType
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
-import org.springframework.util.MultiValueMap
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
 
@@ -25,17 +24,15 @@ class WebClientConfiguration(
 
 }
 
-fun <T : Any> WebClient.postRequest(
+fun WebClient.postRequest(
     token: String,
-    path: String,
-    body: Any,
-    requestClazz: Class<T>
-): ResponseEntity<Void>? {
+    path: String
+//    body: T,
+//    requestClazz: Class<T>
+): WebClient.RequestBodySpec {
     return this.post()
         .uri(path)
-        .header("Authorization", token)
-        .body(body, requestClazz)
-        .retrieve()
-        .toBodilessEntity()
-        .block()
+        .contentType(MediaType.APPLICATION_JSON)
+        .headers { headers -> headers.setBearerAuth(token) }
+
 }

@@ -36,8 +36,9 @@ class CalendarService(
     }
 
     fun getRoomsReservedByCurrentUser() =
-        agendaEntryRepository.findAllByReservedByUserOrderByTimeStart(jwtTokenUtil.getCurrentUser())
-            .map { it.toAgendaEntryDTO() }
+        agendaEntryRepository.findAllByReservedByUserAndTimeStartAfterOrderByTimeStart(
+            jwtTokenUtil.getCurrentUser(), OffsetDateTime.now()
+        ).map { it.toAgendaEntryDTO() }
 
 
     fun makeReservation(calendarDTO: CalendarDTO) {
@@ -54,24 +55,34 @@ class CalendarService(
         }.onSuccess {
             if (sendNotifications) {
                 notificationWebClient.postRequest(
-                    jwtTokenUtil.getCurrentUserToken()!!, "/emails",
-                    SendEmailDTO(
-                        "+31687004333",
-                        "You have made the reservation for the room id ${it.roomId} " +
-                                "from ${it.timeStart}-${it.timeEnd}",
-                        "You have booked a room"
-                    ),
-                    SendEmailDTO::class.java
+                    jwtTokenUtil.getCurrentUserToken()!!, "/emails"
                 )
+                    .bodyValue(
+                        SendEmailDTO(
+                            "julijaciric93@gmail.com",
+                            "You have made the reservation for the room id ${it.roomId} " +
+                                    "from ${it.timeStart}-${it.timeEnd}",
+                            "You have booked a room"
+                        )
+                    )
+                    .retrieve()
+                    .toBodilessEntity()
+                    .block()
+
                 notificationWebClient.postRequest(
-                    jwtTokenUtil.getCurrentUserToken()!!, "/sms",
+                    jwtTokenUtil.getCurrentUserToken()!!, "/sms"
+                ).bodyValue(
                     SendSMSDTO(
                         //TODO switch to phone
-                        receiver = jwtTokenUtil.getCurrentUser(),
+                        receiver = "+381692444050",
                         message = "Your room has been reserved",
                         senderId = "BookARoom"
-                    ), SendSMSDTO::class.java
+                    )
                 )
+                    .retrieve()
+                    .toBodilessEntity()
+                    .block()
+
             }
         }
     }
@@ -86,15 +97,19 @@ class CalendarService(
             .onSuccess {
                 if (sendNotifications) {
                     notificationWebClient.postRequest(
-                        jwtTokenUtil.getCurrentUserToken()!!, "/emails",
-                        SendEmailDTO(
-                            //TODO change to email
-                            jwtTokenUtil.getCurrentUser(),
-                            "Your reservation has been canceled",
-                            "Your reservation has been canceled"
-                        ),
-                        SendEmailDTO::class.java
+                        jwtTokenUtil.getCurrentUserToken()!!, "/emails"
                     )
+                        .body(
+                            SendEmailDTO(
+                                //TODO change to email
+                                "julijaciric93@gmail.com",
+                                "Your reservation has been canceled",
+                                "Your reservation has been canceled"
+                            ),
+                            SendEmailDTO::class.java
+                        ).retrieve()
+                        .toBodilessEntity()
+                        .block()
                 }
             }
     }

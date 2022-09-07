@@ -8,6 +8,7 @@ import {SHOW_MODAL_PROPERTY} from "../../utils/Utils";
 class ModalDialog extends React.Component {
     constructor(props) {
         super(props);
+        this.onClose=this.onClose.bind(this)
     }
 
     onClose() {

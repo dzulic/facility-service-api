@@ -23,4 +23,12 @@ internal class CalendarServiceTest {
     @Test
     fun removeReservation() {
     }
+
+    @Test
+    fun getReservedRoomsForTypeAndTime() {
+    }
+
+    @Test
+    fun getRoomsReservedByCurrentUser() {
+    }
 }

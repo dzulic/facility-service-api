@@ -1,5 +1,5 @@
 import {call, put} from "redux-saga/effects";
-import {handleApiFetchGET, handleApiFetchPOST} from "../../api/Api";
+import {handleApiFetchDELETE, handleApiFetchGET, handleApiFetchPOST} from "../../api/Api";
 import {AGENDA_ENTRIES, CURRENT_USER_ENTRIES} from "../../utils/Utils";
 import {ActionTypes} from "../actions";
 
@@ -7,7 +7,6 @@ export const REST_ROOT_ENDPOINT = "http://localhost:8081/calendars";
 
 
 export function* submitScheduleRoom(action) {
-    console.log("SUBMIT", action)
     const accessToken = yield call(action.property.accessToken)
     let body = {
         roomId: action.property.roomId,
@@ -15,7 +14,6 @@ export function* submitScheduleRoom(action) {
         selectedTimeEnd: action.property.selectedTimeEnd,
         description: action.property.description
     }
-
     try {
         const response = yield call(handleApiFetchPOST, REST_ROOT_ENDPOINT + "/reservations", body, accessToken)
 
@@ -78,6 +76,29 @@ export function* getCurrentUserBookings(action) {
             // yield call(history.push, "/rooms");
         }
 
+    } catch
+        (e) {
+        console.log(e)
+        //TODO SHOW_ERROR_MODAL
+        yield put({
+            type: 'SHOW_ERROR_MODAL'
+        });
+    }
+}
+
+export function* removeBooking(action) {
+    const accessToken = yield call(action.property.accessToken)
+    try {
+        yield call(handleApiFetchDELETE, `${REST_ROOT_ENDPOINT}/reservations/${action.property.value}`, accessToken)
+        const response = yield call(handleApiFetchGET, `${REST_ROOT_ENDPOINT}/reservations/current`, accessToken)
+
+        if (response) {
+            yield put({
+                type: ActionTypes.ADD_EDIT_APP_PROP_STORE, property: {
+                    key: CURRENT_USER_ENTRIES, value: response
+                }
+            });
+        }
     } catch
         (e) {
         console.log(e)

@@ -50,6 +50,7 @@ class BookRoomForm extends Component {
     }
 
     render() {
+        const buttonDisabled = this.props.roomType === undefined || this.props.roomType == null || this.props.selectedDate === null
         return (
             <> <ModalDialog/>
                 <form>
@@ -87,6 +88,7 @@ class BookRoomForm extends Component {
                                 fullWidth
                                 type={"number"}
                                 id="computerPlaces"
+                                defaultValue={0}
                                 autoFocus
                             /></Box>
                         <Box sx={{gridArea: 'selectRoom2'}}>
@@ -100,15 +102,16 @@ class BookRoomForm extends Component {
                                 required
                                 fullWidth
                                 id="sittingPlaces"
+                                defaultValue={0}
                                 autoFocus
                             />
                         </Box>
 
-                        {(this.props.roomType !== undefined && this.props.roomType != null && this.props.selectedDate != null) &&
-                            <Box sx={{gridArea: 'button'}}>
-                                <Button variant="contained" onClick={this.onSubmit}>Find rooms</Button>
-                            </Box>
-                        }
+                        <Box sx={{gridArea: 'button'}}>
+                            <Button variant="contained" onClick={this.onSubmit}
+                                    disabled={buttonDisabled}>Find rooms</Button>
+                        </Box>
+
                         {this.props.agendaEntries &&
                             <Box
                                 sx={{

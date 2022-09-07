@@ -1,18 +1,6 @@
 server:
   port: 8082
 spring:
-  application:
-    name: room-service-api
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/facilities
-    username: postgres
-    password: postgres
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: https://bookaroom-fon.eu.auth0.com/
   flyway:
     enabled: true
     baseline-version: 0
@@ -27,13 +15,17 @@ spring:
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_structured_entries: false
       hibernate.cache.use_minimal_puts: false
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8082/
-  instance:
-    statusPageUrlPath: ${server.servletPath}/info
-    healthCheckUrlPath: ${server.servletPath}/health
+  application:
+    name: room-service-api
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/facilities
+    username: postgres
+    password: postgres
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://bookaroom-fon.eu.auth0.com/
 auth0:
   audience: https://bookaroom-fon.eu.auth0.com/api/v2/

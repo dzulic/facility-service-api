@@ -41,6 +41,9 @@ interface AgendaEntryRepository : JpaRepository<AgendaEntryEntity, UUID> {
         roomIds: List<UUID>
     ): List<AgendaEntryEntity>
 
-    fun findAllByReservedByUserOrderByTimeStart(userId: String): List<AgendaEntryEntity>
+    fun findAllByReservedByUserAndTimeStartAfterOrderByTimeStart(
+        userId: String,
+        time: OffsetDateTime
+    ): List<AgendaEntryEntity>
 
 }

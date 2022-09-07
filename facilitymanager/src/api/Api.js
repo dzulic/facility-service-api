@@ -8,7 +8,8 @@ export const handleApiFetchPATCH =
     (restEndpoint, body, bearerToken) => handleApiFetch(restEndpoint, JSON.stringify(body), bearerToken, 'PATCH')
 export const handleApiFetchPOST =
     (restEndpoint, body, bearerToken) => handleApiFetch(restEndpoint, JSON.stringify(body), bearerToken, 'POST')
-
+export const handleApiFetchDELETE =
+    (restEndpoint, bearerToken) => handleApiFetch(restEndpoint, null, bearerToken, 'DELETE')
 export const handleApiFetch =
     (restEndpoint, body, bearerToken, method) => {
         if (!myHeaders.has("Authorization")) {

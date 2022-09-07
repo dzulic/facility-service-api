@@ -45,8 +45,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:2.7.0")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.2")
     implementation("org.springframework.boot:spring-boot-starter-validation:2.7.0")
-    implementation("org.springframework.retry:spring-retry:1.3.3")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-webflux:2.7.3")
     implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.0-rc2")
@@ -62,15 +60,6 @@ dependencies {
     implementation("org.postgresql:postgresql:42.3.5")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.0")
     implementation("org.flywaydb:flyway-core:8.5.11")
-
-    //MapStruct
-    implementation("com.github.pozo:mapstruct-kotlin:${mapStructKotlinExtVersion}")
-    implementation("org.mapstruct:mapstruct:${mapStructVersion}")
-    kapt("com.github.pozo:mapstruct-kotlin-processor:${mapStructKotlinExtVersion}")
-    kapt("org.mapstruct:mapstruct-processor:${mapStructVersion}")
-    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.2.0")
-    kaptTest("com.github.pozo:mapstruct-kotlin-processor:${mapStructKotlinExtVersion}")
-    kaptTest("org.mapstruct:mapstruct-processor:${mapStructVersion}")
 
     //OTHER
     ktlint("com.pinterest:ktlint:${ktlintVersion}")

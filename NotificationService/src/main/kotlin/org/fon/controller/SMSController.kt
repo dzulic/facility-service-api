@@ -14,5 +14,5 @@ import org.springframework.web.bind.annotation.RequestMapping
 class SMSController(private val smsService: SmsService) {
     @PostMapping
     fun sendSMS(@RequestBody body: SendSMSDTO) =
-        ResponseEntity<Unit>(smsService.sendSMS(body), HttpStatus.NOT_IMPLEMENTED)
+        ResponseEntity<Unit>(smsService.sendSMS(body), HttpStatus.OK)
 }

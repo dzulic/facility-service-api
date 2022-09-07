@@ -10,13 +10,13 @@ spring:
           issuer-uri: https://bookaroom-fon.eu.auth0.com/
 features:
   sns:
-    accessKey: AKIAVT6RKMRALECJI2PJ
-    secretKey: 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
+    accessKey: AKIAVT6RKMRALJR3GCWV
+    secretKey: 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
     serviceEndpoint: sns.us-east-1.amazonaws.com
     region: us-east-1
   ses:
-    accessKey: AKIAVT6RKMRAGUB7QNEU
-    secretKey: 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
+    accessKey: AKIAVT6RKMRAPQDRSIFF
+    secretKey: 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
     serviceEndpoint: https://email.eu-central-1.amazonaws.com
     region: eu-central-1
 auth0:

@@ -1,5 +1,10 @@
 import {ActionTypes} from "./actions";
-import {getAgendasForTimeAndType, getCurrentUserBookings, submitScheduleRoom} from "./sagas/sagaCalendar";
+import {
+    getAgendasForTimeAndType,
+    getCurrentUserBookings,
+    submitScheduleRoom,
+    removeBooking
+} from "./sagas/sagaCalendar";
 import {takeEvery} from 'redux-saga/effects'
 import {addEditAppPropertySaga, closeModalDialog, showModalDialog, solvePromise} from "./sagas/saga";
 import {getAllRooms, getRoomsAndAgendasForCriteria} from "./sagas/sagaRooms";
@@ -16,5 +21,6 @@ export default function* sagas() {
     yield takeEvery(ActionTypes.SOLVE_PROMISE, solvePromise);
     yield takeEvery(ActionTypes.GET_CURRENT_USER_BOOKINGS, getCurrentUserBookings);
     yield takeEvery(ActionTypes.GET_ROOMS_AND_AGENDAS, getRoomsAndAgendasForCriteria);
+    yield takeEvery(ActionTypes.REMOVE_BOOKING, removeBooking)
 
 }

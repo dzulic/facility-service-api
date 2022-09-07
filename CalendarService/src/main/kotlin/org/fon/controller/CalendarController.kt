@@ -69,8 +69,8 @@ class CalendarController(private val calendarService: CalendarService) {
     }
 
     @DeleteMapping("/reservations/{id}")
-    fun removeReservation(@PathVariable id: UUID): ResponseEntity<String?>? {
+    fun removeReservation(@PathVariable id: UUID): ResponseEntity<Unit>? {
         calendarService.removeReservation(id)
-        return ResponseEntity<String?>("Calendar Working", HttpStatus.OK)
+        return ResponseEntity<Unit>(HttpStatus.OK)
     }
 }

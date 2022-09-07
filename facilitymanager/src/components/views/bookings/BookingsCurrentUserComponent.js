@@ -1,21 +1,20 @@
 import Box from "@mui/material/Box";
 import React, {Component} from "react";
-import {Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
+import {IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import CircleIcon from '@mui/icons-material/Circle';
 import {connect} from "react-redux";
-import {ALL_ROOMS, CURRENT_USER_ENTRIES, getValueAppPropertyStore} from "../../utils/Utils";
+import {ALL_ROOMS, CURRENT_USER_ENTRIES, getValueAppPropertyStore} from "../../../utils/Utils";
 import moment from "moment";
+import {ActionTypes} from "../../../redux/actions";
+import {withAuth0} from "@auth0/auth0-react";
 
-class CurrentUserBookingsComponent extends Component {
+class BookingsCurrentUserComponent extends Component {
 
     generate = (element) => {
         const {currentUserEntries, availableRooms} = this.props
         if (currentUserEntries != null && availableRooms !== null) {
             return currentUserEntries.map((value) => {
-                console.log(value)
                 let room = availableRooms.filter((it) => it.id === value.roomId)[0]
-                console.log("r", room)
                 return React.cloneElement(element, {
                     key: value.id
                 }, (
@@ -24,23 +23,36 @@ class CurrentUserBookingsComponent extends Component {
                                     secondary={"At room:" + " " + room.roomId}
                     />
                         <ListItemAvatar>
-                            <Avatar sx={{'backgroundColor': 'transparent'}}>
-                                <CircleIcon fontSize="small" color="primary"/>
-                            </Avatar>
-                        </ListItemAvatar></>))
+                            {/*<Avatar sx={{'backgroundColor': 'transparent'}}>*/}
+                            {/*    <CircleIcon fontSize="small" color="primary"/>*/}
+                            {/*</Avatar>*/}
+                        </ListItemAvatar>
+                        <IconButton edge="end" aria-label="delete" key={value.id}
+                                    onClick={() => this.handleDelete(value.id)}>
+                            <DeleteIcon/>
+                        </IconButton></>))
             })
         }
+    }
+
+    handleDelete = (id) => {
+        const {dispatch, auth0} = this.props
+        dispatch({
+            type: ActionTypes.REMOVE_BOOKING,
+            property: {
+                value: id,
+                accessToken: auth0.getAccessTokenSilently
+            }
+        })
     }
 
     render() {
         return (<Box sx={{paddingTop: 5}}>
             <Typography variant='h6'>Your listings</Typography>
             <List>
-                {this.generate(<ListItem
-                    secondaryAction={<IconButton edge="end" aria-label="delete">
-                        <DeleteIcon/>
-                    </IconButton>}>
-                </ListItem>)}
+                {this.generate(
+                    <ListItem>
+                    </ListItem>)}
             </List>
         </Box>)
     }
@@ -55,4 +67,4 @@ mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(CurrentUserBookingsComponent);
+export default withAuth0(connect(mapStateToProps)(BookingsCurrentUserComponent))

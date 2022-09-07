@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import React from "react";
-import {Avatar, Typography} from "@mui/material";
-import CurrentUserBookingsComponent from "../custom/CurrentUserBookingsComponent";
+import {Typography} from "@mui/material";
+import BookingsCurrentUserComponent from "../views/bookings/BookingsCurrentUserComponent";
 import LoginButton from "../views/auth/LoginButton";
 import {useAuth0} from "@auth0/auth0-react";
 import SignupButton from "../views/auth/SignupButton";
@@ -36,7 +36,7 @@ export function SidebarComponent() {
                     <Box sx={{paddingTop: 3}}>
                         <Profile/>
                     </Box>
-                    <CurrentUserBookingsComponent></CurrentUserBookingsComponent>
+                    <BookingsCurrentUserComponent></BookingsCurrentUserComponent>
                 </>
             }
         </Box>

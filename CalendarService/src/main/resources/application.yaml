@@ -35,7 +35,7 @@ spring:
 services:
   notification-services:
     url: 'http://localhost:8083'
-    enabled: false
+    enabled: true
 auth0:
   audience: https://bookaroom-fon.eu.auth0.com/api/v2/
 #logging:

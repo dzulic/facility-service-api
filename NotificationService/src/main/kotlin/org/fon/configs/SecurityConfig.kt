@@ -37,6 +37,7 @@ class SecurityConfig {
         an OAuth2 Resource Server, using JWT validation.
         */
         http.authorizeRequests()
+            .mvcMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
             .anyRequest().authenticated()
             .and().cors()
             .and().oauth2ResourceServer().jwt()

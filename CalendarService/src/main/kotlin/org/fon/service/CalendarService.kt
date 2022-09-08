@@ -87,9 +87,18 @@ class CalendarService(
         }
     }
 
-    fun editReservation(reservationId: UUID) {
-        val reservation = agendaEntryRepository.getReferenceById(reservationId)
-        agendaEntryRepository.save(reservation);
+    fun editReservation(id: UUID, calendarDTO: CalendarDTO) {
+        val reservation = agendaEntryRepository.getReferenceById(id)
+        agendaEntryRepository.save(
+            AgendaEntryEntity(
+                id = reservation.id,
+                roomId = calendarDTO.roomId,
+                reservedByUser = jwtTokenUtil.getCurrentUser(),
+                usePurposeDescription = calendarDTO.description,
+                timeStart = calendarDTO.selectedTimeStart,
+                timeEnd = calendarDTO.selectedTimeEnd,
+            )
+        );
     }
 
     fun removeReservation(id: UUID) {

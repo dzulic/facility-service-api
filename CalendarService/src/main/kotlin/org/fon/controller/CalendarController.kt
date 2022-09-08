@@ -63,9 +63,8 @@ class CalendarController(private val calendarService: CalendarService) {
     }
 
     @PatchMapping("/reservations/{id}")
-    fun editReservation(@PathVariable id: UUID): ResponseEntity<String?>? {
-        calendarService.editReservation(id)
-        return ResponseEntity<String?>("Calendar Working", HttpStatus.OK)
+    fun editReservation(@PathVariable id: UUID, @RequestBody calendarDTO: CalendarDTO): ResponseEntity<Unit>? {
+        return ResponseEntity<Unit>(calendarService.editReservation(id, calendarDTO), HttpStatus.OK)
     }
 
     @DeleteMapping("/reservations/{id}")

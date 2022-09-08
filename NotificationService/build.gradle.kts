@@ -34,8 +34,6 @@ configurations {
     runtimeClasspath.get().extendsFrom(developmentOnly.get())
 }
 
-val mapStructVersion by extra { "1.4.2.Final" }
-val mapStructKotlinExtVersion by extra { "1.4.0.0" }
 val ktlintVersion by extra { "0.43.0" }
 val ktlint by configurations.creating
 
@@ -66,6 +64,8 @@ dependencies {
     implementation("com.amazonaws:aws-java-sdk-sns:1.12.292")
     implementation("com.amazonaws:aws-java-sdk-ses:1.12.292")
 
+    //DOCUMENTATION
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
 }
 
 tasks.test {

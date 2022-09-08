@@ -8,7 +8,7 @@ import java.util.UUID
 
 
 @Service
-class RomService(private val roomRepository: RoomRepository) {
+class RoomService(private val roomRepository: RoomRepository) {
     fun getAllRooms(): List<RoomDTO> = roomRepository.findAll().map { it.toRoomDTO() }
     fun getRoomsByType(roomType: String, computerPlacesMin: Int?, sittingPlacesMin: Int?): List<UUID> =
         roomRepository

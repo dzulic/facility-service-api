@@ -35,8 +35,6 @@ configurations {
     runtimeClasspath.get().extendsFrom(developmentOnly.get())
 }
 
-val mapStructVersion by extra { "1.4.2.Final" }
-val mapStructKotlinExtVersion by extra { "1.4.0.0" }
 val ktlintVersion by extra { "0.43.0" }
 val ktlint by configurations.creating
 
@@ -65,6 +63,9 @@ dependencies {
     ktlint("com.pinterest:ktlint:${ktlintVersion}")
     developmentOnly("org.springframework.boot:spring-boot-devtools:2.7.0")
     testImplementation(kotlin("test"))
+
+    //DOCUMENTATION
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
 
 
 }

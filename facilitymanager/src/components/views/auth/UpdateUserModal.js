@@ -74,10 +74,10 @@ class UpdateUserModal extends Component {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                name="phone_number"
+                                name="phone_number_sms"
                                 label="Phone number"
                                 autoComplete="tel"
-                                id="phone_number"
+                                id="phone_number_sms"
                             />
                         </Grid>
                     </Grid>

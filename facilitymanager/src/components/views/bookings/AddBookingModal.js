@@ -7,6 +7,7 @@ import {Field, getFormValues, reduxForm} from "redux-form";
 import {ActionTypes} from "../../../redux/actions";
 import {renderTextField} from "../../base/MuiTextFieldRendering";
 import {withAuth0} from "@auth0/auth0-react";
+import {getValueAppPropertyStore, ROOM_TYPE, SELECTED_DATE} from "../../../utils/Utils";
 
 const formatDate = (date, time) => {
     return new Date(`${moment(date).format("yyyy-MM-DD")}T${time}:00.000+02:00`).toISOString()
@@ -23,7 +24,7 @@ class AddBookingModal extends Component {
     }
 
     submitBookRoom = event => {
-        const {dispatch, property, formValues, auth0} = this.props
+        const {dispatch, property, formValues, auth0, selectedDate, roomType} = this.props
         dispatch({
             type: ActionTypes.SUBMIT_SCHEDULE_ROOM,
             property: {
@@ -38,6 +39,17 @@ class AddBookingModal extends Component {
             type: ActionTypes.CLOSE_MODAL,
             property: true
         });
+        dispatch({type: ActionTypes.GET_CURRENT_USER_BOOKINGS, property: {accessToken: auth0.getAccessTokenSilently}})
+        dispatch({
+            type: ActionTypes.GET_ROOMS_AND_AGENDAS,
+            property: {
+                roomType: roomType,
+                selectedDate: selectedDate,
+                computerPlacesMin: (formValues != null) ? formValues.computerPlaces : 0,
+                sittingPlacesMin: (formValues != null) ? formValues.sittingPlaces : 0,
+                accessToken: auth0.getAccessTokenSilently
+            }
+        })
     }
 
     render() {
@@ -47,8 +59,7 @@ class AddBookingModal extends Component {
                     <DialogTitle>You can now book a room</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            To subscribe to this website, please enter your email address here. We
-                            will send updates occasionally.
+                            Please check start and end time to reserve
                         </DialogContentText>
                         <DialogContentText>
                             {moment(this.props.property.time).format("DD/MM/YYYY HH:mm")}
@@ -111,7 +122,10 @@ class AddBookingModal extends Component {
 
 function mapStateToProps(state) {
     return {
-        formName: formName, formValues: getFormValues(formName)(state)
+        formName: formName,
+        formValues: getFormValues(formName)(state),
+        roomType: getValueAppPropertyStore(state, ROOM_TYPE),
+        selectedDate: getValueAppPropertyStore(state, SELECTED_DATE),
     };
 }
 

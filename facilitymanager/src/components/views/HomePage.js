@@ -13,10 +13,10 @@ export default function HomePage() {
     if (isAuthenticated && (user != null && (user.finished_registration !== 'true'))) {
         return <UpdateUserModal/>
     }
-    return (<Container aria-expanded={"true"}>
+    return (
         <PageLayoutComponent>
             {!isAuthenticated && <ImageContent/>}
             {isAuthenticated && <BookRoomForm/>}
         </PageLayoutComponent>
-    </Container>);
+    );
 }

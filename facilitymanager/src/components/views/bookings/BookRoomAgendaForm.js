@@ -10,8 +10,7 @@ import TodayMarker from "react-calendar-timeline/lib/lib/markers/public/TodayMar
 import {ActionTypes} from "../../../redux/actions";
 
 const defaultTime = moment()
-    .startOf("day")
-    .add(8, 'h')
+    .startOf("hour")
 const defaultTimeStart = defaultTime
     .toDate();
 const defaultTimeEnd = defaultTime
@@ -27,10 +26,25 @@ class BookRoomAgendaForm extends Component {
             groups = allRooms.filter(it => it.roomType === roomType)
                 .filter(all => availableRooms
                     .includes(all.id)).map((room) => {
-                    return {id: room.id, title: room.roomId, height: 80}
+                    return {
+                        id: room.id,
+                        title: room.roomId,
+                        height: 80,
+                        rightTitle: `${room.computerPlaces}cp / ${room.sittingPlaces}sp`
+                    }
                 })
         }
-        console.log("GROUPS", groups)
+        console.log(allRooms)
+
+        if (groups.length === 0 && allRooms != null) {
+            return allRooms.map((room) => {
+                return {
+                    id: room.id, title:
+                        `${room.roomId} / ${room.roomType} 
+                  `, height: 80, rightTitle: `${room.computerPlaces}cp / ${room.sittingPlaces}sp`
+                }
+            })
+        }
         return groups
     }
 
@@ -48,7 +62,6 @@ class BookRoomAgendaForm extends Component {
                 }
             })
         }
-        console.log("ITEMS", items)
         return items
     }
 
@@ -62,20 +75,21 @@ class BookRoomAgendaForm extends Component {
     }
 
     render() {
-        return (<Box sx={{width: '40vw', margin: 'auto'}}>
-
+        return (<Box sx={{width: '100%', margin: 'auto'}}>
             <Timeline groups={this.createGroups()}
                       items={this.createItems()}
                       defaultTimeStart={defaultTimeStart}
                       defaultTimeEnd={defaultTimeEnd}
                       itemHeightRatio={0.75}
                       onItemDoubleClick={this.handleItemClick}
-                      onCanvasClick={this.handleCanvasClick}>
+                      onCanvasClick={this.handleCanvasClick}
+                      rightSidebarWidth={150}
+                      buffer={1.2}>
                 <TodayMarker/>
                 <TimelineHeaders>
                     <SidebarHeader>
                         {({getRootProps}) => {
-                            return <div {...getRootProps()}>Room Name</div>
+                            return <div className="rct-sidebar-title-text" {...getRootProps()}>Room id/Room type</div>
                         }}
                     </SidebarHeader>
                     <DateHeader unit="primaryHeader"/>
@@ -84,10 +98,10 @@ class BookRoomAgendaForm extends Component {
                         getLeftOffsetFromDate={(start) => start}
                         showPeriod={() => console.log("Show period")}
                         canvasWidth={50}
-                        canvasTimeStart={10}
-                        canvasTimeEnd={70}
-                        visibleTimeStart={0}
-                        visibleTimeEnd={0}
+                        canvasTimeStart={8}
+                        canvasTimeEnd={20}
+                        visibleTimeStart={8}
+                        visibleTimeEnd={20}
                         timeSteps={{
                             hour: 1
                         }}

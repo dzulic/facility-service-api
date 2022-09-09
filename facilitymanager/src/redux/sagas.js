@@ -18,7 +18,6 @@ export default function* sagas() {
     yield takeEvery(ActionTypes.GET_ALL_ROOMS, getAllRooms);
     yield takeEvery(ActionTypes.CLOSE_MODAL, closeModalDialog);
     yield takeEvery(ActionTypes.SHOW_MODAL, showModalDialog);
-    yield takeEvery(ActionTypes.SOLVE_PROMISE, solvePromise);
     yield takeEvery(ActionTypes.GET_CURRENT_USER_BOOKINGS, getCurrentUserBookings);
     yield takeEvery(ActionTypes.GET_ROOMS_AND_AGENDAS, getRoomsAndAgendasForCriteria);
     yield takeEvery(ActionTypes.REMOVE_BOOKING, removeBooking)

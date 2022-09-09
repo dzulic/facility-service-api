@@ -11,6 +11,7 @@ const ProfileForm = () => {
         return <div>Loading ...</div>;
     }
 
+    console.log("USER",user);
     return (
         isAuthenticated && (
             <div>
@@ -18,8 +19,6 @@ const ProfileForm = () => {
                         src={user.picture}/>
                 <Typography variant='h5'>{user.given_name} {user.family_name}</Typography>
                 <Typography variant='h5'>{user.phone_number}</Typography>
-                <Typography variant='p'>Last updated
-                    at:{moment(user.updated_at).format("YYYY-MM-DD HH:mm:ss")}</Typography>
             </div>
         )
     );

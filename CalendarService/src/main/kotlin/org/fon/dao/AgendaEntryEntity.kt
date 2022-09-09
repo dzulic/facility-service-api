@@ -37,6 +37,11 @@ interface AgendaEntryRepository : JpaRepository<AgendaEntryEntity, UUID> {
         endTime: OffsetDateTime
     ): List<AgendaEntryEntity>
 
+    fun findAllByTimeStartBetween(
+        startTime: OffsetDateTime,
+        endTime: OffsetDateTime
+    ): List<AgendaEntryEntity>
+
     fun findAllByRoomIdIn(
         roomIds: List<UUID>
     ): List<AgendaEntryEntity>

@@ -3,12 +3,13 @@ import {connect} from "react-redux";
 import AddTimelineItemModalComponent from "../views/bookings/AddBookingModal";
 import {ActionTypes} from "../../redux/actions";
 import UpdateUserModal from "../views/auth/UpdateUserModal";
-import {SHOW_MODAL_PROPERTY} from "../../utils/Utils";
+import ErrorModal from "./ErrorModal";
+import BookingRemovalListingModal from "../views/bookings/BookingRemoveListingModal";
 
 class ModalDialog extends React.Component {
     constructor(props) {
         super(props);
-        this.onClose=this.onClose.bind(this)
+        this.onClose = this.onClose.bind(this)
     }
 
     onClose() {
@@ -25,6 +26,9 @@ class ModalDialog extends React.Component {
             (modalDialog.SHOW_ADD_BOOKING_MODAL &&
                 <AddTimelineItemModalComponent closeMethod={this.onClose} property={modalDialog.SHOW_MODAL_PROPERTY}/>)
             || (modalDialog.SHOW_UPDATE_USER_MODAL && <UpdateUserModal/>)
+            || (modalDialog.SHOW_ERROR &&
+                <ErrorModal closeMethod={this.onClose} property={modalDialog.SHOW_MODAL_PROPERTY}/>)
+            || (modalDialog.SHOW_DELETE_MODAL && <BookingRemovalListingModal closeMethod={this.onClose} property={modalDialog.SHOW_MODAL_PROPERTY}/>)
         return (
             <div>
                 {modalDialog.SHOW_MODAL_PROPERTY && content}

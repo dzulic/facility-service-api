@@ -24,15 +24,22 @@ class CalendarService(
      * so the user can select the free slots
      */
     fun getReservedRoomsForTypeAndTime(
-        selectedTimeStart: OffsetDateTime, rooms: List<String>
+        selectedTimeStart: OffsetDateTime?, rooms: List<String?>?
     ): List<AgendaEntryDTO> {
-        return if (rooms.isNotEmpty()) {
+        val timeStart = selectedTimeStart?.minusDays(7) ?: OffsetDateTime.now().minusDays(7)
+        val timeEnd = selectedTimeStart?.plusDays(7) ?: OffsetDateTime.now().plusDays(7)
+        return if (rooms.isNullOrEmpty()) {
+            agendaEntryRepository.findAllByTimeStartBetween(
+                timeStart,
+                timeEnd
+            ).map { it.toAgendaEntryDTO() }
+        } else {
             agendaEntryRepository.findAllByRoomIdInAndTimeStartBetween(
                 rooms.map { UUID.fromString(it) },
-                selectedTimeStart.minusDays(1),
-                selectedTimeStart.plusDays(7)
+                timeStart,
+                timeEnd
             ).map { it.toAgendaEntryDTO() }
-        } else listOf()
+        }
     }
 
     fun getRoomsReservedByCurrentUser() =

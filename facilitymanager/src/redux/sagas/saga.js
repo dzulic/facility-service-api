@@ -48,7 +48,3 @@ export function* showModalDialog(action) {
         });
     }
 }
-
-export function* solvePromise(action) {
-    yield Promise.resolve(action.property.accessToken);
-}

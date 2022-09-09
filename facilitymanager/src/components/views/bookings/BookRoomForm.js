@@ -25,6 +25,21 @@ class BookRoomForm extends Component {
         super(props);
     }
 
+    componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
+        const {dispatch, formValues, selectedDate, roomType} = this.props
+        const {getAccessTokenSilently} = this.props.auth0;
+        dispatch({
+            type: ActionTypes.GET_ROOMS_AND_AGENDAS,
+            property: {
+                roomType: roomType,
+                selectedDate: selectedDate,
+                computerPlacesMin: (formValues != null) ? formValues.computerPlaces : 0,
+                sittingPlacesMin: (formValues != null) ? formValues.sittingPlaces : 0,
+                accessToken: getAccessTokenSilently
+            }
+        })
+    }
+
     componentDidMount() {
         const {getAccessTokenSilently} = this.props.auth0;
         const {dispatch, availableRooms} = this.props
@@ -60,12 +75,11 @@ class BookRoomForm extends Component {
                             display: 'grid',
                             gridTemplateColumns: 'repeat(2, 1fr)',
                             gridTemplateAreas: ` "title title"
-                    "selectRoomType selectRoomType"
-                    "selectDay selectDay"
+                    "selectRoomType selectDay"
                     "selectRoom1 selectRoom2"
                     "button button"
                     "timeline timeline"`,
-                            gap: 1,
+                            gap: 5,
                             gridTemplateRows: 'auto'
                         }}>
                         <Box sx={{gridArea: 'title', padding: '20px'}}>
@@ -109,19 +123,17 @@ class BookRoomForm extends Component {
 
                         <Box sx={{gridArea: 'button'}}>
                             <Button variant="contained" onClick={this.onSubmit}
-                                    disabled={buttonDisabled}>Find rooms</Button>
+                                    disabled={buttonDisabled}>Filter rooms</Button>
+                        </Box>
+                        <Box
+                            sx={{
+                                gridArea: "timeline",
+                                marginTop: '50px',
+                                marginBottom: '50px'
+                            }}>
+                            <AgendaBooking></AgendaBooking>
                         </Box>
 
-                        {this.props.agendaEntries &&
-                            <Box
-                                sx={{
-                                    gridArea: "timeline",
-                                    marginTop: '50px',
-                                    marginBottom: '50px'
-                                }}>
-                                <AgendaBooking></AgendaBooking>
-                            </Box>
-                        }
                     </Box>
                 </form>
             </>
@@ -137,12 +149,12 @@ function mapStateToProps(state) {
         selectedTime: getValueAppPropertyStore(state, SELECTED_TIME),
         availableRooms: getValueAppPropertyStore(state, ALL_ROOMS),
         agendaEntries: getValueAppPropertyStore(state, AGENDA_ENTRIES),
-        formValues: getFormValues("app")(state)
+        formValues: getFormValues("bookRoomModule")(state)
     }
 }
 
 export default withAuth0(connect(mapStateToProps)(reduxForm({
-    form: "app",
+    form: "bookRoomModule",
     // TO REMOVE
     destroyOnUnmount: false,
     enableReinitialize: true,

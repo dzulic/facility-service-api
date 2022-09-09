@@ -17,6 +17,9 @@ body {
     align-items: center;
     justify-content: center;
     color:  #2196f3;
+    min-height: 100%;
+    padding: 0;
+
 }
 
 label {
@@ -186,6 +189,9 @@ label {
 
 .react-calendar-timeline .rct-calendar-header {
     border: 1px solid #bbb;
+}
+.rct-sidebar-title-text {
+    color: white;
 }
 
 .spinner {

@@ -29,16 +29,13 @@ class CalendarController(private val calendarService: CalendarService) {
     fun getAvailableRoomsForTimeAndType(
         @RequestParam(
             value = "selectedTimeStart",
-            required = true
         ) @org.springframework.format.annotation.DateTimeFormat(
             iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME
         )
-        selectedTimeStart: OffsetDateTime,
+        selectedTimeStart: OffsetDateTime?,
         @RequestParam(
-            value = "roomsIds",
-            required = true
-        )
-        roomsIds: List<String>
+            value = "roomsIds")
+        roomsIds: List<String?>?
     ): ResponseEntity<List<AgendaEntryDTO>>? =
         ResponseEntity<List<AgendaEntryDTO>>(
             calendarService.getReservedRoomsForTypeAndTime(selectedTimeStart, roomsIds),

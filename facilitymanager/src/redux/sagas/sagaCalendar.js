@@ -2,6 +2,7 @@ import {call, put} from "redux-saga/effects";
 import {handleApiFetchDELETE, handleApiFetchGET, handleApiFetchPOST} from "../../api/Api";
 import {AGENDA_ENTRIES, CURRENT_USER_ENTRIES} from "../../utils/Utils";
 import {ActionTypes} from "../actions";
+import moment from "moment";
 
 export const REST_ROOT_ENDPOINT = "http://localhost:8081/calendars";
 
@@ -17,18 +18,14 @@ export function* submitScheduleRoom(action) {
     try {
         const response = yield call(handleApiFetchPOST, REST_ROOT_ENDPOINT + "/reservations", body, accessToken)
 
-        if (response.success === false) {
+        if (response.error != null) {
             throw new Error(response.message);
-        }
-
-        if (response) {
-            //TODO add success
         }
 
     } catch (e) {
         console.log(e)
         yield put({
-            type: 'SHOW_ERROR_MODAL'
+            type: ActionTypes.SHOW_ERROR
         });
     }
 }
@@ -39,10 +36,13 @@ export function* getAgendasForTimeAndType(action) {
     try {
         const response = yield call(
             handleApiFetchGET, `${REST_ROOT_ENDPOINT}/availability?${new URLSearchParams({
-                selectedTimeStart: action.property.selectedDate,
+                selectedTimeStart: action.property.selectedDate === null ? (new Date()).toISOString() : action.property.selectedDate,
                 roomsIds: action.property.roomIds
             })}`, accessToken
         )
+        if (response.error != null) {
+            throw new Error(response.message);
+        }
         if (response) {
             yield put({
                 type: ActionTypes.ADD_EDIT_APP_PROP_STORE, property: {
@@ -54,9 +54,9 @@ export function* getAgendasForTimeAndType(action) {
     } catch
         (e) {
         console.log(e)
-        //TODO SHOW_ERROR_MODAL
         yield put({
-            type: 'SHOW_ERROR_MODAL'
+            property: e,
+            type: ActionTypes.SHOW_ERROR
         });
     }
 }
@@ -66,22 +66,22 @@ export function* getCurrentUserBookings(action) {
     try {
         const response = yield call(handleApiFetchGET, `${REST_ROOT_ENDPOINT}/reservations/current`, accessToken)
 
+        if (response.error != null) {
+            throw new Error(response.message);
+        }
         if (response) {
             yield put({
                 type: ActionTypes.ADD_EDIT_APP_PROP_STORE, property: {
                     key: CURRENT_USER_ENTRIES, value: response
                 }
             });
-            //TODO REMOVE HISTORY
-            // yield call(history.push, "/rooms");
         }
 
     } catch
         (e) {
         console.log(e)
-        //TODO SHOW_ERROR_MODAL
         yield put({
-            type: 'SHOW_ERROR_MODAL'
+            type: ActionTypes.SHOW_ERROR
         });
     }
 }
@@ -92,6 +92,9 @@ export function* removeBooking(action) {
         yield call(handleApiFetchDELETE, `${REST_ROOT_ENDPOINT}/reservations/${action.property.value}`, accessToken)
         const response = yield call(handleApiFetchGET, `${REST_ROOT_ENDPOINT}/reservations/current`, accessToken)
 
+        if (response.error != null) {
+            throw new Error(response.message);
+        }
         if (response) {
             yield put({
                 type: ActionTypes.ADD_EDIT_APP_PROP_STORE, property: {
@@ -102,9 +105,8 @@ export function* removeBooking(action) {
     } catch
         (e) {
         console.log(e)
-        //TODO SHOW_ERROR_MODAL
         yield put({
-            type: 'SHOW_ERROR_MODAL'
+            type: ActionTypes.SHOW_ERROR
         });
     }
 }

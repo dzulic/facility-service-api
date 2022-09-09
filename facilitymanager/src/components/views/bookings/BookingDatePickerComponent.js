@@ -28,9 +28,8 @@ class BookingDatePickerComponent extends Component {
     }
 
     render() {
-        console.log("DATE IS", this.props.selectedDate)
         return (
-            <Box sx={{padding: 5, my: 4}}>
+            <Box>
                 <FormControl fullWidth={true}>
                     <Typography component="h5">Choose a date</Typography>
                     <LocalizationProvider dateAdapter={AdapterMoment}>

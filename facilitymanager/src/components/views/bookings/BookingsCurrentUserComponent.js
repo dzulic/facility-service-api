@@ -13,21 +13,19 @@ class BookingsCurrentUserComponent extends Component {
     generate = (element) => {
         const {currentUserEntries, availableRooms} = this.props
         if (currentUserEntries != null && availableRooms !== null) {
+            console.log(currentUserEntries)
             return currentUserEntries.map((value) => {
                 let room = availableRooms.filter((it) => it.id === value.roomId)[0]
                 return React.cloneElement(element, {
                     key: value.id
                 }, (
                     <><ListItemText sx={{fontSize: '0.1vw'}}
-                                    primary={"Time of your booking:" + " " + moment(value.timeStart).format("HH:mm DD/MM/YYYY")}
-                                    secondary={"At room:" + " " + room.roomId}
+                                    primary={`Time of your booking: ${moment(value.timeStart).format("HH:mm DD/MM/YYYY")}
+                                        At ${room.roomId} with purpose ${value.usePurposeDescription}`}
                     />
                         <ListItemAvatar>
-                            {/*<Avatar sx={{'backgroundColor': 'transparent'}}>*/}
-                            {/*    <CircleIcon fontSize="small" color="primary"/>*/}
-                            {/*</Avatar>*/}
                         </ListItemAvatar>
-                        <IconButton edge="end" aria-label="delete" key={value.id}
+                        <IconButton edge="end" aria-label="delete" sx={{color: 'white'}} key={value.id}
                                     onClick={() => this.handleDelete(value.id)}>
                             <DeleteIcon/>
                         </IconButton></>))
@@ -36,12 +34,11 @@ class BookingsCurrentUserComponent extends Component {
     }
 
     handleDelete = (id) => {
-        const {dispatch, auth0} = this.props
+        const {dispatch} = this.props
         dispatch({
-            type: ActionTypes.REMOVE_BOOKING,
+            type: ActionTypes.SHOW_DELETE_MODAL,
             property: {
-                value: id,
-                accessToken: auth0.getAccessTokenSilently
+                value: id
             }
         })
     }

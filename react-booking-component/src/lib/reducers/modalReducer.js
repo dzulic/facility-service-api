@@ -8,9 +8,7 @@ export const modalReducer = (state = [], action) => {
         //TODO REFACTOR NAMING
         case ActionTypes.SHOW_MODAL_STORE:
             return {SHOW_MODAL_PROPERTY: action.property, SHOW_ADD_BOOKING_MODAL: true};
-        case ActionTypes.SHOW_UPDATE_USER_MODAL:
-            return {SHOW_MODAL_PROPERTY: action.property, SHOW_UPDATE_USER_MODAL: true};
-        case ActionTypes.SHOW_ERROR:
+       case ActionTypes.SHOW_ERROR:
             return {SHOW_MODAL_PROPERTY: action.property, SHOW_ERROR: true}
         case ActionTypes.SHOW_DELETE_MODAL:
             return {SHOW_MODAL_PROPERTY: action.property, SHOW_DELETE_MODAL: true}

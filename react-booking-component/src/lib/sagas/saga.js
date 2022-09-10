@@ -18,21 +18,6 @@ export function* addEditAppPropertySaga(action) {
 
 }
 
-//add or edit single property
-export function* removeAppProperty(action) {
-
-    if (action.property) {
-        const property = {
-            key: action.property.key
-        };
-
-        yield put({
-            type: ActionTypes.REMOVE_APP_PROP_STORE, property: property
-        });
-    }
-
-}
-
 export function* closeModalDialog(action) {
     if (action.property) {
         yield put({

@@ -1,6 +1,6 @@
 import {call, put} from "redux-saga/effects";
-import {handleApiFetchDELETE, handleApiFetchGET, handleApiFetchPOST} from "../../api/Api";
-import {AGENDA_ENTRIES, CURRENT_USER_ENTRIES} from "../../utils/Utils";
+import {handleApiFetchDELETE, handleApiFetchGET, handleApiFetchPOST} from "../api/Api";
+import {AGENDA_ENTRIES, CURRENT_USER_ENTRIES} from "../utils/Utils";
 import {ActionTypes} from "../actions";
 import moment from "moment";
 

@@ -3,9 +3,9 @@ import React, {Component} from "react";
 import {IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {connect} from "react-redux";
-import {ALL_ROOMS, CURRENT_USER_ENTRIES, getValueAppPropertyStore} from "../../../utils/Utils";
+import {ALL_ROOMS, CURRENT_USER_ENTRIES, getValueAppPropertyStore} from "../utils/Utils";
 import moment from "moment";
-import {ActionTypes} from "../../../redux/actions";
+import {ActionTypes} from "../actions";
 import {withAuth0} from "@auth0/auth0-react";
 
 class BookingsCurrentUserComponent extends Component {

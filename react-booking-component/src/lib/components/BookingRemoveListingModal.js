@@ -3,7 +3,7 @@ import {Box} from "@mui/system";
 import {Button, Alert, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import {connect} from "react-redux";
 import {withAuth0} from "@auth0/auth0-react";
-import {ActionTypes} from "../../../redux/actions";
+import {ActionTypes} from "../actions";
 
 class BookingRemovalListingModal extends Component {
     constructor() {

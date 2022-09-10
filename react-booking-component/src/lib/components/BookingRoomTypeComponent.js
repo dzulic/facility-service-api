@@ -1,9 +1,9 @@
 import {FormControl, Input, InputLabel, MenuItem, Select} from "@mui/material";
 import React, {Component} from "react";
-import {ActionTypes} from '../../../redux/actions';
+import {ActionTypes} from '../actions';
 import {connect} from "react-redux";
 import {Field} from 'redux-form'
-import {ROOM_TYPE} from "../../../utils/Utils";
+import {ROOM_TYPE} from "../utils/Utils";
 
 let options = [
     {label: '', value: undefined},

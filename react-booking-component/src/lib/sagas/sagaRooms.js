@@ -1,7 +1,7 @@
-import {handleApiFetchGET} from "../../api/Api";
+import {handleApiFetchGET} from "../api/Api";
 import {call, put} from "redux-saga/effects";
 import {ActionTypes} from "../actions";
-import {ALL_ROOMS, AVAILABLE_ROOMS} from "../../utils/Utils";
+import {ALL_ROOMS, AVAILABLE_ROOMS} from "../utils/Utils";
 
 export const REST_ROOT_ENDPOINT = "http://localhost:8082/rooms";
 

@@ -3,8 +3,8 @@ import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment';
 import {LocalizationProvider, DesktopDatePicker} from "@mui/x-date-pickers";
 import {Box, FormControl, TextField, Typography} from "@mui/material";
 import {connect} from "react-redux";
-import {ActionTypes} from "../../../redux/actions";
-import {getValueAppPropertyStore, SELECTED_DATE} from "../../../utils/Utils";
+import {ActionTypes} from "../actions";
+import {getValueAppPropertyStore, SELECTED_DATE} from "../utils/Utils";
 import moment from "moment";
 
 const DATE_FORMAT = 'YYYY-MM-DDTHH:mm:00.000+02:00';

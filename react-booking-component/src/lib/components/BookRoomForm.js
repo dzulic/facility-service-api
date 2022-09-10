@@ -11,14 +11,14 @@ import {
     ROOM_TYPE,
     SELECTED_DATE,
     SELECTED_TIME
-} from "../../../utils/Utils";
+} from "../utils/Utils";
 import {Button, Typography} from "@mui/material";
-import {ActionTypes} from "../../../redux/actions";
-import ModalDialog from "../../base/ModalDialog";
+import {ActionTypes} from "../actions";
+import ModalDialog from "./base/ModalDialog";
 import AgendaBooking from "./BookRoomAgendaForm";
 import {withAuth0} from "@auth0/auth0-react";
-import {renderTextField} from "../../base/MuiTextFieldRendering";
-
+import {renderTextField} from "./base/MuiTextFieldRendering";
+import '../../App.css';
 
 class BookRoomForm extends Component {
     constructor(props) {

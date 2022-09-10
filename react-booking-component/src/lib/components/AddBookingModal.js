@@ -4,10 +4,10 @@ import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogT
 import moment from "moment";
 import {connect} from "react-redux";
 import {Field, getFormValues, reduxForm} from "redux-form";
-import {ActionTypes} from "../../../redux/actions";
-import {renderTextField} from "../../base/MuiTextFieldRendering";
+import {ActionTypes} from "../actions";
+import {renderTextField} from "./base/MuiTextFieldRendering";
 import {withAuth0} from "@auth0/auth0-react";
-import {getValueAppPropertyStore, ROOM_TYPE, SELECTED_DATE} from "../../../utils/Utils";
+import {getValueAppPropertyStore, ROOM_TYPE, SELECTED_DATE} from "../utils/Utils";
 
 const formatDate = (date, time) => {
     return new Date(`${moment(date).format("yyyy-MM-DD")}T${time}:00.000+02:00`).toISOString()

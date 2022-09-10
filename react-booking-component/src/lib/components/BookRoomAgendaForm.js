@@ -3,11 +3,11 @@ import moment from 'moment'
 import React, {Component} from "react";
 import Box from "@mui/material/Box";
 import {CustomHeader} from "react-calendar-timeline/lib/lib/headers/CustomHeader";
-import {AGENDA_ENTRIES, ALL_ROOMS, AVAILABLE_ROOMS, getValueAppPropertyStore, ROOM_TYPE} from "../../../utils/Utils";
+import {AGENDA_ENTRIES, ALL_ROOMS, AVAILABLE_ROOMS, getValueAppPropertyStore, ROOM_TYPE} from "../utils/Utils";
 import {connect} from "react-redux";
 import {reduxForm} from "redux-form";
 import TodayMarker from "react-calendar-timeline/lib/lib/markers/public/TodayMarker";
-import {ActionTypes} from "../../../redux/actions";
+import {ActionTypes} from "../actions";
 
 const defaultTime = moment()
     .startOf("hour")

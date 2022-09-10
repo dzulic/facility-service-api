@@ -66,8 +66,13 @@ class BookRoomAgendaForm extends Component {
     }
 
     handleItemClick = (itemId, _, time) => {
-        console.log('Clicked: ' + itemId, moment(time).format())
-    }
+        const {dispatch} = this.props
+        dispatch({
+            type: ActionTypes.SHOW_DELETE_MODAL,
+            property: {
+                value: itemId
+            }
+        })  }
 
     handleCanvasClick = (groupId, time) => {
         const {dispatch} = this.props
@@ -81,7 +86,7 @@ class BookRoomAgendaForm extends Component {
                       defaultTimeStart={defaultTimeStart}
                       defaultTimeEnd={defaultTimeEnd}
                       itemHeightRatio={0.75}
-                      onItemDoubleClick={this.handleItemClick}
+                      onItemClick={this.handleItemClick}
                       onCanvasClick={this.handleCanvasClick}
                       rightSidebarWidth={150}
                       buffer={1.2}>

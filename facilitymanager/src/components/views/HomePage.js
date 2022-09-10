@@ -1,11 +1,9 @@
 import React from "react";
-import Container from "@mui/material/Container";
 import ImageContent from "../custom/ImageContent";
 import PageLayoutComponent from "../base/PageLayoutComponent";
-import BookRoomForm from "./bookings/BookRoomForm";
 import {useAuth0} from "@auth0/auth0-react";
 import UpdateUserModal from "./auth/UpdateUserModal";
-
+import BookRoomForm from "react-booking-facility-component/dist/lib/components/BookRoomForm"
 
 export default function HomePage() {
     const {isAuthenticated, user} = useAuth0();

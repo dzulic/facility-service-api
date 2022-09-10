@@ -9,7 +9,6 @@ import NotFoundPage from "./components/views/NotFoundPage";
 import HomePage from "./components/views/HomePage";
 import {useAuth0} from "@auth0/auth0-react";
 import Loading from "./components/base/Loading";
-import Profile from "./components/views/auth/ProfileForm";
 
 function App() {
     const {isLoading, error} = useAuth0();
@@ -23,7 +22,6 @@ function App() {
         <Routes>
             <Route index element={<HomePage/>}/>
             <Route path="*" element={<NotFoundPage/>}/>
-            <Route path="/profile" element={<Profile/>}/>
         </Routes>
     );
 }

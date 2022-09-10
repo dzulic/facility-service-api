@@ -1,13 +1,12 @@
 import Box from "@mui/material/Box";
 import React from "react";
 import {Typography} from "@mui/material";
-import BookingsCurrentUserComponent from "../views/bookings/BookingsCurrentUserComponent";
 import LoginButton from "../views/auth/LoginButton";
 import {useAuth0} from "@auth0/auth0-react";
 import SignupButton from "../views/auth/SignupButton";
 import Profile from "../views/auth/ProfileForm";
 import LogoutButton from "../views/auth/LogoutButton";
-
+import {BookingsCurrentUserComponent} from "react-booking-facility-component"
 export function SidebarComponent() {
     const {isAuthenticated} = useAuth0();
 

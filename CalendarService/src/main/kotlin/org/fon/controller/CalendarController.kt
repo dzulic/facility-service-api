@@ -28,17 +28,17 @@ class CalendarController(private val calendarService: CalendarService) {
     @GetMapping("/availability")
     fun getAvailableRoomsForTimeAndType(
         @RequestParam(
-            value = "selectedTimeStart",
+            value = "timeStart",
         ) @org.springframework.format.annotation.DateTimeFormat(
             iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME
         )
-        selectedTimeStart: OffsetDateTime?,
+        timeStart: OffsetDateTime?,
         @RequestParam(
             value = "roomsIds")
         roomsIds: List<String?>?
     ): ResponseEntity<List<AgendaEntryDTO>>? =
         ResponseEntity<List<AgendaEntryDTO>>(
-            calendarService.getReservedRoomsForTypeAndTime(selectedTimeStart, roomsIds),
+            calendarService.getReservedRoomsForTypeAndTime(timeStart, roomsIds),
             HttpStatus.OK
         )
 
@@ -48,9 +48,9 @@ class CalendarController(private val calendarService: CalendarService) {
         consumes = ["application/json"]
     )
     fun makeReservation(
-        @RequestBody calendarDTO: CalendarDTO
+        @RequestBody agendaEntryDTO: AgendaEntryDTO
     ): ResponseEntity<String?>? {
-        calendarService.makeReservation(calendarDTO)
+        calendarService.makeReservation(agendaEntryDTO)
         return ResponseEntity(HttpStatus.OK)
     }
 
@@ -60,8 +60,8 @@ class CalendarController(private val calendarService: CalendarService) {
     }
 
     @PatchMapping("/reservations/{id}")
-    fun editReservation(@PathVariable id: UUID, @RequestBody calendarDTO: CalendarDTO): ResponseEntity<Unit>? {
-        return ResponseEntity<Unit>(calendarService.editReservation(id, calendarDTO), HttpStatus.OK)
+    fun editReservation(@PathVariable id: UUID, @RequestBody agendaEntryDTO: AgendaEntryDTO): ResponseEntity<Unit>? {
+        return ResponseEntity<Unit>(calendarService.editReservation(id, agendaEntryDTO), HttpStatus.OK)
     }
 
     @DeleteMapping("/reservations/{id}")

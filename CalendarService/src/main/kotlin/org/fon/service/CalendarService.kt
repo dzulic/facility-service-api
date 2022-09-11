@@ -2,7 +2,6 @@ package org.fon.service
 
 import org.fon.configuration.JwtTokenUtil
 import org.fon.configuration.postRequest
-import org.fon.controller.CalendarDTO
 import org.fon.dao.AgendaEntryEntity
 import org.fon.dao.AgendaEntryRepository
 import org.springframework.beans.factory.annotation.Value
@@ -24,10 +23,10 @@ class CalendarService(
      * so the user can select the free slots
      */
     fun getReservedRoomsForTypeAndTime(
-        selectedTimeStart: OffsetDateTime?, rooms: List<String?>?
+        timeStart: OffsetDateTime?, rooms: List<String?>?
     ): List<AgendaEntryDTO> {
-        val timeStart = selectedTimeStart?.minusDays(7) ?: OffsetDateTime.now().minusDays(7)
-        val timeEnd = selectedTimeStart?.plusDays(7) ?: OffsetDateTime.now().plusDays(7)
+        val timeStart = timeStart?.minusDays(7) ?: OffsetDateTime.now().minusDays(7)
+        val timeEnd = timeStart?.plusDays(7) ?: OffsetDateTime.now().plusDays(7)
         return if (rooms.isNullOrEmpty()) {
             agendaEntryRepository.findAllByTimeStartBetween(
                 timeStart,
@@ -48,15 +47,15 @@ class CalendarService(
         ).map { it.toAgendaEntryDTO() }
 
 
-    fun makeReservation(calendarDTO: CalendarDTO) {
+    fun makeReservation(agendaEntryDTO: AgendaEntryDTO) {
         runCatching {
             agendaEntryRepository.save(
                 AgendaEntryEntity(
-                    roomId = calendarDTO.roomId,
+                    roomId = agendaEntryDTO.roomId,
                     reservedByUser = jwtTokenUtil.getCurrentUser(),
-                    usePurposeDescription = calendarDTO.description,
-                    timeStart = calendarDTO.selectedTimeStart,
-                    timeEnd = calendarDTO.selectedTimeEnd,
+                    usePurposeDescription = agendaEntryDTO.usePurposeDescription,
+                    timeStart = agendaEntryDTO.timeStart,
+                    timeEnd = agendaEntryDTO.timeEnd,
                 )
             )
         }.onSuccess {
@@ -94,16 +93,16 @@ class CalendarService(
         }
     }
 
-    fun editReservation(id: UUID, calendarDTO: CalendarDTO) {
+    fun editReservation(id: UUID, agendaEntryDTO: AgendaEntryDTO) {
         val reservation = agendaEntryRepository.getReferenceById(id)
         agendaEntryRepository.save(
             AgendaEntryEntity(
                 id = reservation.id,
-                roomId = calendarDTO.roomId,
+                roomId = agendaEntryDTO.roomId,
                 reservedByUser = jwtTokenUtil.getCurrentUser(),
-                usePurposeDescription = calendarDTO.description,
-                timeStart = calendarDTO.selectedTimeStart,
-                timeEnd = calendarDTO.selectedTimeEnd,
+                usePurposeDescription = agendaEntryDTO.usePurposeDescription,
+                timeStart = agendaEntryDTO.timeStart,
+                timeEnd = agendaEntryDTO.timeEnd,
             )
         );
     }
@@ -138,10 +137,16 @@ private fun AgendaEntryEntity.toAgendaEntryDTO() =
 data class AgendaEntryDTO(
     val id: UUID,
     val roomId: UUID,
+    @org.springframework.format.annotation.DateTimeFormat(
+        iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME
+    )
     val timeStart: OffsetDateTime,
+    @org.springframework.format.annotation.DateTimeFormat(
+        iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME
+    )
     val timeEnd: OffsetDateTime,
     val usePurposeDescription: String?,
-    val reservedByTheUser: String
+    val userId: String
 )
 
 data class SendEmailDTO(

@@ -1,16 +1,16 @@
 import {combineReducers} from 'redux'
 import {configureStore} from '@reduxjs/toolkit'
-import {AppReducer} from './redux/reducers/reducer'
-import {modalReducer} from './redux/reducers/modalReducer'
 import createSagaMiddleware from 'redux-saga'
 import sagas from './redux/sagas'
 import {history} from "./utils/history"
 import {reducer as reduxFormReducer} from "redux-form";
+import {modalReducer} from "react-booking-facility-component/dist/lib/reducers/modalReducer";
+import {AppReducer} from "react-booking-facility-component/dist/lib/reducers/reducer";
 
 const reducers = combineReducers({
     app: AppReducer,
-    modalDialog: modalReducer,
-    form: reduxFormReducer
+    form: reduxFormReducer,
+    modalDialog: modalReducer
 })
 let middlewares = [];
 // add the saga middleware

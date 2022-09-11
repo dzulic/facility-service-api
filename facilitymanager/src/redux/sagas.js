@@ -1,14 +1,18 @@
+import {takeEvery} from 'redux-saga/effects'
+import {updateUserInfo} from "./sagas/sagaAut0";
 import {ActionTypes} from "./actions";
 import {
+    addEditAppPropertySaga,
+    closeModalDialog,
+    showModalDialog
+} from "react-booking-facility-component/dist/lib/sagas/saga";
+import {
     getAgendasForTimeAndType,
-    getCurrentUserBookings,
+    getCurrentUserBookings, removeBooking,
     submitScheduleRoom,
-    removeBooking
-} from "./sagas/sagaCalendar";
-import {takeEvery} from 'redux-saga/effects'
-import {addEditAppPropertySaga, closeModalDialog, showModalDialog, solvePromise} from "./sagas/saga";
-import {getAllRooms, getRoomsAndAgendasForCriteria} from "./sagas/sagaRooms";
-import {updateUserInfo} from "./sagas/sagaAut0";
+    editBooking
+} from "react-booking-facility-component/dist/lib/sagas/sagaCalendar";
+import {getAllRooms, getRoomsAndAgendasForCriteria} from "react-booking-facility-component/dist/lib/sagas/sagaRooms";
 
 export default function* sagas() {
     yield takeEvery(ActionTypes.UPDATE_USER_INFO, updateUserInfo)
@@ -21,5 +25,6 @@ export default function* sagas() {
     yield takeEvery(ActionTypes.GET_CURRENT_USER_BOOKINGS, getCurrentUserBookings);
     yield takeEvery(ActionTypes.GET_ROOMS_AND_AGENDAS, getRoomsAndAgendasForCriteria);
     yield takeEvery(ActionTypes.REMOVE_BOOKING, removeBooking)
+    yield takeEvery(ActionTypes.EDIT_BOOKING, editBooking)
 
 }
